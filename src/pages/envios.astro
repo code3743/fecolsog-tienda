@@ -1,0 +1,171 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+
+const zones = [
+    {
+        name: "Ciudades Principales",
+        cities: "Bogotá, Medellín, Cali, Barranquilla, Cartagena, Bucaramanga",
+        time: "2 – 3 días hábiles",
+        cost: "Gratis en pedidos ≥ $200.000 COP",
+        icon: "lucide:building-2",
+        highlight: true,
+    },
+    {
+        name: "Ciudades Intermedias",
+        cities: "Pereira, Manizales, Armenia, Ibagué, Villavicencio, Montería, Pasto, Cúcuta, Santa Marta, Valledupar",
+        time: "3 – 5 días hábiles",
+        cost: "Calculado en el checkout",
+        icon: "lucide:map-pin",
+        highlight: false,
+    },
+    {
+        name: "Municipios y Zonas Rurales",
+        cities: "Resto del territorio nacional colombiano",
+        time: "5 – 8 días hábiles",
+        cost: "Calculado en el checkout",
+        icon: "lucide:trees",
+        highlight: false,
+    },
+];
+
+const steps = [
+    { icon: "lucide:shopping-cart", title: "Realiza tu pedido", desc: "Agrega los productos al carrito, completa tus datos y confirma el pago." },
+    { icon: "lucide:package", title: "Preparación", desc: "En máximo 1 día hábil alistamos y empacamos tu pedido en nuestro centro de distribución en Bogotá." },
+    { icon: "lucide:truck", title: "Despacho", desc: "Entregamos el paquete a nuestro operador logístico aliado. Recibirás un correo con el número de guía y el enlace de rastreo." },
+    { icon: "lucide:bell", title: "Entrega", desc: "El operador realiza el intento de entrega en la dirección registrada. Recibirás una notificación antes del despacho." },
+];
+---
+
+<Layout title="Política de Envíos | Tienda FECOLSOG">
+    <!-- Hero -->
+    <section class="bg-primary text-primary-content py-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Icon name="lucide:truck" class="w-8 h-8" />
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+                Política de Envíos
+            </h1>
+            <p class="text-primary-content/80 text-lg max-w-2xl mx-auto">
+                Enviamos a todo Colombia. Conoce los tiempos, costos y condiciones de despacho de la Tienda Oficial FECOLSOG.
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 py-16 space-y-16">
+
+        <!-- Envío gratis banner -->
+        <div class="bg-secondary/10 border-2 border-secondary/30 rounded-3xl p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+            <div class="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center shrink-0 mx-auto sm:mx-0">
+                <Icon name="lucide:badge-percent" class="w-8 h-8 text-white" />
+            </div>
+            <div>
+                <h2 class="text-2xl font-black text-base-content mb-1">Envío Gratis en Pedidos ≥ $200.000 COP</h2>
+                <p class="text-base-content/70">
+                    Todos los pedidos que superen los doscientos mil pesos colombianos reciben envío sin costo adicional a cualquier ciudad principal del país.
+                </p>
+            </div>
+        </div>
+
+        <!-- Zonas y tiempos -->
+        <section>
+            <h2 class="text-2xl font-black uppercase tracking-tighter text-base-content mb-8 flex items-center gap-3">
+                <Icon name="lucide:map" class="w-6 h-6 text-primary" />
+                Zonas de Cobertura y Tiempos
+            </h2>
+            <div class="grid gap-6 md:grid-cols-3">
+                {zones.map((zone) => (
+                    <div class={`rounded-2xl p-6 border-2 ${zone.highlight ? "border-primary bg-primary/5" : "border-base-200 bg-base-100"} shadow-sm`}>
+                        <div class={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${zone.highlight ? "bg-primary text-white" : "bg-base-200 text-base-content/60"}`}>
+                            <Icon name={zone.icon} class="w-5 h-5" />
+                        </div>
+                        <h3 class="font-black text-base-content mb-2">{zone.name}</h3>
+                        <p class="text-sm text-base-content/60 mb-4 leading-relaxed">{zone.cities}</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-sm font-bold">
+                                <Icon name="lucide:clock" class="w-4 h-4 text-primary shrink-0" />
+                                <span>{zone.time}</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm font-bold">
+                                <Icon name="lucide:tag" class="w-4 h-4 text-secondary shrink-0" />
+                                <span class="text-secondary">{zone.cost}</span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <p class="text-sm text-base-content/50 mt-4 italic">
+                * Los tiempos indicados son estimados en días hábiles desde el despacho del pedido. No incluyen fines de semana ni festivos.
+            </p>
+        </section>
+
+        <!-- Proceso de envío -->
+        <section>
+            <h2 class="text-2xl font-black uppercase tracking-tighter text-base-content mb-8 flex items-center gap-3">
+                <Icon name="lucide:route" class="w-6 h-6 text-primary" />
+                ¿Cómo Funciona el Proceso?
+            </h2>
+            <div class="relative">
+                <!-- Vertical line -->
+                <div class="absolute left-5 top-0 bottom-0 w-0.5 bg-primary/20 hidden md:block"></div>
+                <div class="space-y-8">
+                    {steps.map((step, i) => (
+                        <div class="flex gap-6 items-start relative">
+                            <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-black text-sm z-10">
+                                {i + 1}
+                            </div>
+                            <div class="bg-base-100 border border-base-200 rounded-2xl p-6 flex-1 shadow-sm">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <Icon name={step.icon} class="w-5 h-5 text-primary" />
+                                    <h3 class="font-black text-base-content">{step.title}</h3>
+                                </div>
+                                <p class="text-base-content/70 text-sm leading-relaxed">{step.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        <!-- Condiciones -->
+        <section>
+            <h2 class="text-2xl font-black uppercase tracking-tighter text-base-content mb-6 flex items-center gap-3">
+                <Icon name="lucide:file-text" class="w-6 h-6 text-primary" />
+                Condiciones Generales de Envío
+            </h2>
+            <div class="bg-base-100 border border-base-200 rounded-2xl divide-y divide-base-200 shadow-sm">
+                {[
+                    { icon: "lucide:package-check", text: "Los pedidos realizados antes de las 12:00 p.m. en días hábiles se procesan el mismo día. Los realizados después de esta hora se procesan al siguiente día hábil." },
+                    { icon: "lucide:home", text: "El destinatario debe estar disponible para recibir el paquete en la dirección indicada. En caso de ausencia, el operador realizará hasta dos intentos de entrega adicionales." },
+                    { icon: "lucide:alert-circle", text: "Verifica que la dirección de envío sea completa y correcta (incluyendo apartamento, oficina o piso). FECOLSOG no se hace responsable de demoras ocasionadas por datos incorrectos proporcionados por el comprador." },
+                    { icon: "lucide:scale", text: "Los productos digitales (cursos en línea, accesos a plataformas) no tienen costo de envío y se activan por correo electrónico dentro de las 24 horas hábiles siguientes a la confirmación del pago." },
+                    { icon: "lucide:shield-check", text: "Todos los envíos cuentan con seguro de daños incluido. Si recibes un paquete con evidencias de maltrato externo, tómale fotos antes de abrirlo y repórtalo a tienda@fecolsog.org." },
+                    { icon: "lucide:refresh-cw", text: "En caso de que el envío no pueda ser entregado después de tres intentos, el paquete regresará a nuestro centro de distribución y te contactaremos para coordinar el reenvío (sujeto a un cargo adicional de flete)." },
+                ].map((item) => (
+                    <div class="flex items-start gap-4 p-6">
+                        <Icon name={item.icon} class="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                        <p class="text-base-content/75 text-sm leading-relaxed">{item.text}</p>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- Rastreo -->
+        <section class="bg-primary/5 border border-primary/20 rounded-3xl p-8">
+            <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                <Icon name="lucide:search" class="w-12 h-12 text-primary shrink-0 mx-auto sm:mx-0" />
+                <div>
+                    <h3 class="text-xl font-black text-base-content mb-1">Rastrea tu Pedido</h3>
+                    <p class="text-base-content/70 text-sm mb-4">
+                        Una vez despachado tu pedido recibirás un correo con el número de guía. Haz clic en el enlace incluido para ver el estado en tiempo real en el portal del operador logístico.
+                    </p>
+                    <a href="/contact" class="btn btn-primary btn-sm rounded-full">
+                        ¿Problemas con tu envío? Contáctanos
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</Layout>

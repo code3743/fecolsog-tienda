@@ -1,0 +1,177 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+
+const faqs = [
+    {
+        category: "Pedidos y Compras",
+        icon: "lucide:shopping-bag",
+        items: [
+            {
+                q: "¿Cómo puedo realizar un pedido?",
+                a: "Navega por nuestras categorías, agrega los productos que desees al carrito y procede al checkout. Completa tus datos de contacto, dirección de envío y método de pago. Recibirás una confirmación por correo electrónico al finalizar tu compra."
+            },
+            {
+                q: "¿Necesito ser afiliado a FECOLSOG para comprar en la tienda?",
+                a: "No. La tienda está abierta a cualquier profesional de la salud, residente, estudiante de medicina o persona interesada en nuestros productos. Sin embargo, los afiliados activos de FECOLSOG disfrutan de un descuento especial del 10% en toda la tienda."
+            },
+            {
+                q: "¿Cómo sé si mi pedido fue confirmado?",
+                a: "Al finalizar el proceso de compra recibirás un comprobante en pantalla con el número de transacción. Además, te enviaremos un correo electrónico de confirmación a la dirección que registraste, con el detalle de los productos y el valor total."
+            },
+            {
+                q: "¿Puedo modificar o cancelar mi pedido después de haberlo realizado?",
+                a: "Puedes solicitar modificaciones o cancelaciones dentro de las 2 horas siguientes a la confirmación del pedido, siempre que este aún no haya sido despachado. Contáctanos a tienda@fecolsog.org lo antes posible con tu número de pedido."
+            },
+            {
+                q: "¿Los precios incluyen IVA?",
+                a: "Sí, todos los precios publicados en la tienda incluyen IVA. No se aplicarán cargos adicionales en el momento del pago, salvo los costos de envío cuando apliquen."
+            },
+        ]
+    },
+    {
+        category: "Envíos",
+        icon: "lucide:truck",
+        items: [
+            {
+                q: "¿A qué ciudades de Colombia hacen envíos?",
+                a: "Realizamos envíos a todo el territorio nacional colombiano a través de nuestro operador logístico aliado. Para ciudades principales (Bogotá, Medellín, Cali, Barranquilla, Cartagena) el tiempo de entrega es de 2 a 3 días hábiles. Para municipios y ciudades intermedias puede ser de 4 a 7 días hábiles."
+            },
+            {
+                q: "¿Cuándo aplica el envío gratis?",
+                a: "El envío es gratis en pedidos iguales o superiores a $200.000 COP. Para pedidos por debajo de este valor, el costo de envío se calcula según la ciudad de destino y se muestra antes de confirmar la compra."
+            },
+            {
+                q: "¿Cómo puedo hacer seguimiento a mi pedido?",
+                a: "Una vez despachado tu pedido, te enviaremos al correo registrado el número de guía y el enlace al portal del operador logístico para que puedas rastrear tu envío en tiempo real."
+            },
+            {
+                q: "¿Hacen envíos internacionales?",
+                a: "Por el momento solo realizamos envíos dentro del territorio colombiano. Si eres especialista en el exterior y estás interesado en productos FECOLSOG, contáctanos a tienda@fecolsog.org para evaluar opciones."
+            },
+        ]
+    },
+    {
+        category: "Congresos y Eventos",
+        icon: "lucide:calendar-check",
+        items: [
+            {
+                q: "¿Cómo recibo mi entrada al congreso después de comprarla?",
+                a: "Al confirmar tu inscripción, recibirás un correo con tu entrada en formato PDF (código QR único). Este documento es tu acreditación para ingresar al evento. Guárdalo y preséntalo en la sede del congreso, ya sea impreso o desde tu dispositivo móvil."
+            },
+            {
+                q: "¿Las inscripciones a congresos tienen devolución?",
+                a: "Las inscripciones a congresos y talleres son reembolsables hasta 15 días antes de la fecha del evento, con un cargo administrativo del 10% sobre el valor pagado. Pasada esa fecha, no se realizan devoluciones pero sí se acepta la transferencia de la inscripción a otro profesional."
+            },
+            {
+                q: "¿El valor de la inscripción incluye el material del congreso?",
+                a: "Sí, la inscripción general al Congreso Nacional FECOLSOG incluye el kit congresista (libro de resúmenes, memoria USB con ponencias, escarapela y acceso a todas las sesiones). Los talleres prácticos pueden tener materiales adicionales especificados en su descripción."
+            },
+        ]
+    },
+    {
+        category: "Devoluciones y Garantías",
+        icon: "lucide:refresh-ccw",
+        items: [
+            {
+                q: "¿Qué hago si recibo un producto dañado o incorrecto?",
+                a: "Tienes 5 días hábiles desde la recepción del pedido para reportar cualquier producto dañado, defectuoso o diferente al solicitado. Escríbenos a tienda@fecolsog.org con fotos del producto y tu número de pedido. Gestionaremos el cambio o reembolso sin costo adicional."
+            },
+            {
+                q: "¿Puedo devolver indumentaria médica si la talla no me queda bien?",
+                a: "Aceptamos cambios de talla en batas y trajes antifluido dentro de los 10 días hábiles siguientes a la recepción, siempre que el producto esté sin usar, con etiquetas originales y en su empaque original. El costo del envío de devolución corre por cuenta del cliente."
+            },
+            {
+                q: "¿Los insumos médicos tienen garantía?",
+                a: "Los insumos médicos (guantes, mascarillas, geles) no son retornables una vez abiertos por razones de higiene y seguridad sanitaria. Si recibes un lote defectuoso o vencido, contáctanos de inmediato para gestionar el reemplazo."
+            },
+        ]
+    },
+    {
+        category: "Cuenta y Afiliación",
+        icon: "lucide:user-check",
+        items: [
+            {
+                q: "¿Cómo accedo al descuento del 10% para afiliados?",
+                a: "Si eres afiliado activo de FECOLSOG, contáctanos a tienda@fecolsog.org con tu número de afiliación para que activemos tu descuento. Una vez verificado, el descuento se aplicará automáticamente en tus próximas compras."
+            },
+            {
+                q: "¿Puedo pedir factura electrónica por mi compra?",
+                a: "Sí. Al momento del checkout encontrarás la opción para solicitar factura electrónica. Ingresa el NIT o cédula, la razón social y el correo electrónico al que deseas recibirla. La factura se emite dentro de las 24 horas hábiles siguientes a la confirmación del pago."
+            },
+        ]
+    },
+];
+---
+
+<Layout title="Preguntas Frecuentes | Tienda FECOLSOG">
+    <!-- Hero -->
+    <section class="bg-primary text-primary-content py-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Icon name="lucide:help-circle" class="w-8 h-8" />
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+                Preguntas Frecuentes
+            </h1>
+            <p class="text-primary-content/80 text-lg max-w-2xl mx-auto">
+                Resolvemos las dudas más comunes sobre pedidos, envíos, congresos y devoluciones en la tienda oficial de FECOLSOG.
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Sections -->
+    <section class="max-w-4xl mx-auto px-4 py-16" aria-label="Preguntas frecuentes">
+        <div class="space-y-14">
+            {faqs.map((section) => (
+                <div>
+                    <!-- Section Header -->
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-primary/20">
+                        <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                            <Icon name={section.icon} class="w-5 h-5" />
+                        </div>
+                        <h2 class="text-xl font-black uppercase tracking-tighter text-base-content">
+                            {section.category}
+                        </h2>
+                    </div>
+
+                    <!-- Accordion Items -->
+                    <div class="space-y-3">
+                        {section.items.map((item, i) => (
+                            <details class="group bg-base-100 border border-base-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                                <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-base-content gap-4 list-none">
+                                    <span class="text-base leading-snug pr-4">{item.q}</span>
+                                    <Icon
+                                        name="lucide:chevron-down"
+                                        class="w-5 h-5 shrink-0 text-primary transition-transform duration-300 group-open:rotate-180"
+                                    />
+                                </summary>
+                                <div class="px-6 pb-6 text-base-content/70 leading-relaxed border-t border-base-200 pt-4">
+                                    {item.a}
+                                </div>
+                            </details>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="mt-16 bg-primary/5 border border-primary/20 rounded-3xl p-10 text-center">
+            <Icon name="lucide:mail" class="w-10 h-10 text-primary mx-auto mb-4" />
+            <h3 class="text-2xl font-black text-base-content mb-2">¿No encontraste tu respuesta?</h3>
+            <p class="text-base-content/70 mb-6 max-w-md mx-auto">
+                Escríbenos directamente y nuestro equipo te responderá en máximo un día hábil.
+            </p>
+            <a href="/contact" class="btn btn-primary rounded-full px-8">
+                Ir a Contacto
+            </a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    details > summary::-webkit-details-marker {
+        display: none;
+    }
+</style>

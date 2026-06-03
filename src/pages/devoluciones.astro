@@ -1,0 +1,267 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+
+const policies = [
+    {
+        title: "Productos Físicos (Indumentaria, Insumos, Artículos)",
+        icon: "lucide:shirt",
+        color: "bg-primary/10 text-primary border-primary/20",
+        items: [
+            {
+                condition: "Producto dañado o defectuoso de fábrica",
+                deadline: "5 días hábiles desde la recepción",
+                resolution: "Cambio por producto nuevo o reembolso completo sin costo adicional",
+                allowed: true,
+            },
+            {
+                condition: "Producto incorrecto (diferente al pedido)",
+                deadline: "5 días hábiles desde la recepción",
+                resolution: "Recogemos el producto equivocado y enviamos el correcto sin costo",
+                allowed: true,
+            },
+            {
+                condition: "Cambio de talla (indumentaria sin usar, con etiquetas)",
+                deadline: "10 días hábiles desde la recepción",
+                resolution: "Cambio por la talla solicitada. El costo de envío de devolución es del comprador",
+                allowed: true,
+            },
+            {
+                condition: "Desistimiento (arrepentimiento sin defecto)",
+                deadline: "5 días hábiles desde la recepción (Ley 1480 de 2011)",
+                resolution: "Reembolso del valor del producto. El costo de envío de retorno es del comprador",
+                allowed: true,
+            },
+            {
+                condition: "Insumos médicos ya abiertos o usados",
+                deadline: "—",
+                resolution: "No aplica devolución por razones de higiene y seguridad sanitaria",
+                allowed: false,
+            },
+        ]
+    },
+    {
+        title: "Publicaciones y Material Educativo",
+        icon: "lucide:book-open",
+        color: "bg-secondary/10 text-secondary border-secondary/20",
+        items: [
+            {
+                condition: "Libro dañado o páginas faltantes",
+                deadline: "5 días hábiles desde la recepción",
+                resolution: "Cambio por un ejemplar nuevo",
+                allowed: true,
+            },
+            {
+                condition: "Título diferente al pedido",
+                deadline: "5 días hábiles desde la recepción",
+                resolution: "Recogemos el ejemplar equivocado y enviamos el correcto",
+                allowed: true,
+            },
+            {
+                condition: "Libro en buen estado sin defecto",
+                deadline: "5 días hábiles (Ley 1480)",
+                resolution: "Reembolso del valor. El envío de retorno es del comprador",
+                allowed: true,
+            },
+            {
+                condition: "Flashcards o materiales de estudio abiertos",
+                deadline: "—",
+                resolution: "No aplica devolución si el empaque ha sido abierto",
+                allowed: false,
+            },
+        ]
+    },
+    {
+        title: "Cursos Online y Suscripciones Digitales",
+        icon: "lucide:monitor-play",
+        color: "bg-accent/10 text-accent border-accent/20",
+        items: [
+            {
+                condition: "Acceso no activado por error técnico",
+                deadline: "Cualquier momento",
+                resolution: "Reactivación inmediata o reembolso completo",
+                allowed: true,
+            },
+            {
+                condition: "Solicitud antes de activar el acceso",
+                deadline: "Dentro de las 24 horas post-compra",
+                resolution: "Reembolso completo si el acceso no ha sido activado",
+                allowed: true,
+            },
+            {
+                condition: "Acceso ya activado y utilizado",
+                deadline: "—",
+                resolution: "No aplica devolución una vez el contenido ha sido accedido",
+                allowed: false,
+            },
+        ]
+    },
+    {
+        title: "Inscripciones a Congresos y Talleres",
+        icon: "lucide:ticket",
+        color: "bg-neutral/10 text-neutral border-neutral/20",
+        items: [
+            {
+                condition: "Cancelación con más de 15 días antes del evento",
+                deadline: "Hasta 15 días antes del evento",
+                resolution: "Reembolso del 90% del valor pagado (10% cargo administrativo)",
+                allowed: true,
+            },
+            {
+                condition: "Transferencia de inscripción a otro profesional",
+                deadline: "Hasta 5 días antes del evento",
+                resolution: "Sin costo. Envía nombre, cédula y especialidad del nuevo participante",
+                allowed: true,
+            },
+            {
+                condition: "Cancelación con menos de 15 días antes del evento",
+                deadline: "—",
+                resolution: "No aplica reembolso monetario. Solo se acepta transferencia de inscripción",
+                allowed: false,
+            },
+            {
+                condition: "Evento cancelado por FECOLSOG",
+                deadline: "—",
+                resolution: "Reembolso completo o crédito para el siguiente evento de la misma categoría",
+                allowed: true,
+            },
+        ]
+    },
+];
+---
+
+<Layout title="Política de Devoluciones | Tienda FECOLSOG">
+    <!-- Hero -->
+    <section class="bg-primary text-primary-content py-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Icon name="lucide:refresh-ccw" class="w-8 h-8" />
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+                Política de Devoluciones
+            </h1>
+            <p class="text-primary-content/80 text-lg max-w-2xl mx-auto">
+                Tu satisfacción es nuestra prioridad. Conoce los casos en que aceptamos devoluciones y el proceso para gestionarlas.
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 py-16 space-y-16">
+
+        <!-- Marco legal -->
+        <div class="bg-base-100 border-l-4 border-primary rounded-r-2xl p-6 flex gap-4 shadow-sm">
+            <Icon name="lucide:scale" class="w-6 h-6 text-primary shrink-0 mt-0.5" />
+            <div>
+                <h3 class="font-black text-base-content mb-1">Marco Legal</h3>
+                <p class="text-base-content/70 text-sm leading-relaxed">
+                    Esta política de devoluciones está enmarcada en la <strong>Ley 1480 de 2011 (Estatuto del Consumidor colombiano)</strong>, que garantiza el derecho de retracto dentro de los 5 días hábiles siguientes a la entrega del producto, en compras realizadas a través de canales no presenciales (tiendas en línea).
+                </p>
+            </div>
+        </div>
+
+        <!-- Proceso de devolución -->
+        <section>
+            <h2 class="text-2xl font-black uppercase tracking-tighter text-base-content mb-8 flex items-center gap-3">
+                <Icon name="lucide:clipboard-list" class="w-6 h-6 text-primary" />
+                ¿Cómo Solicitar una Devolución?
+            </h2>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                    { step: 1, icon: "lucide:mail", title: "Contáctanos", desc: "Escribe a tienda@fecolsog.org con asunto «Solicitud de devolución – Pedido #XXXX»." },
+                    { step: 2, icon: "lucide:camera", title: "Adjunta evidencia", desc: "Incluye fotos del producto, el empaque y el comprobante de compra. Para productos defectuosos, documenta el daño claramente." },
+                    { step: 3, icon: "lucide:check-circle", title: "Aprobación", desc: "Nuestro equipo evaluará tu solicitud y te responderá en máximo 2 días hábiles con la resolución." },
+                    { step: 4, icon: "lucide:rotate-ccw", title: "Devolución o cambio", desc: "Si aplica, coordinamos la recogida del producto o el envío del cambio. Los reembolsos se procesan en 5–10 días hábiles." },
+                ].map((item) => (
+                    <div class="bg-base-100 border border-base-200 rounded-2xl p-6 shadow-sm text-center">
+                        <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-black text-sm mx-auto mb-3">
+                            {item.step}
+                        </div>
+                        <Icon name={item.icon} class="w-6 h-6 text-primary mx-auto mb-2" />
+                        <h3 class="font-black text-base-content mb-2 text-sm">{item.title}</h3>
+                        <p class="text-base-content/60 text-xs leading-relaxed">{item.desc}</p>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- Políticas por categoría -->
+        {policies.map((policy) => (
+            <section>
+                <h2 class="text-xl font-black uppercase tracking-tighter text-base-content mb-6 flex items-center gap-3">
+                    <div class={`w-9 h-9 rounded-xl flex items-center justify-center border ${policy.color}`}>
+                        <Icon name={policy.icon} class="w-4 h-4" />
+                    </div>
+                    {policy.title}
+                </h2>
+
+                <div class="overflow-x-auto rounded-2xl border border-base-200 shadow-sm">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-base-200 text-base-content/70">
+                                <th class="text-left p-4 font-black uppercase text-xs tracking-wider">Situación</th>
+                                <th class="text-left p-4 font-black uppercase text-xs tracking-wider hidden sm:table-cell">Plazo</th>
+                                <th class="text-left p-4 font-black uppercase text-xs tracking-wider">Resolución</th>
+                                <th class="text-center p-4 font-black uppercase text-xs tracking-wider w-16">¿Aplica?</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-base-200">
+                            {policy.items.map((item) => (
+                                <tr class="bg-base-100 hover:bg-base-200/50 transition-colors">
+                                    <td class="p-4 text-base-content font-medium leading-snug">{item.condition}</td>
+                                    <td class="p-4 text-base-content/60 hidden sm:table-cell">{item.deadline}</td>
+                                    <td class="p-4 text-base-content/70 leading-snug">{item.resolution}</td>
+                                    <td class="p-4 text-center">
+                                        {item.allowed ? (
+                                            <span class="inline-flex items-center justify-center w-7 h-7 bg-emerald-100 text-emerald-600 rounded-full">
+                                                <Icon name="lucide:check" class="w-4 h-4" />
+                                            </span>
+                                        ) : (
+                                            <span class="inline-flex items-center justify-center w-7 h-7 bg-red-100 text-red-500 rounded-full">
+                                                <Icon name="lucide:x" class="w-4 h-4" />
+                                            </span>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        ))}
+
+        <!-- Condiciones generales -->
+        <section>
+            <h2 class="text-2xl font-black uppercase tracking-tighter text-base-content mb-6 flex items-center gap-3">
+                <Icon name="lucide:info" class="w-6 h-6 text-primary" />
+                Condiciones Generales
+            </h2>
+            <div class="bg-base-100 border border-base-200 rounded-2xl divide-y divide-base-200 shadow-sm">
+                {[
+                    { icon: "lucide:package", text: "Todos los productos devueltos deben ser enviados en su empaque original, sin signos de uso, con etiquetas intactas y con el comprobante de compra." },
+                    { icon: "lucide:credit-card", text: "Los reembolsos se procesan al mismo medio de pago utilizado en la compra. El tiempo de acreditación depende del banco o plataforma de pago (generalmente 5 a 10 días hábiles)." },
+                    { icon: "lucide:alert-triangle", text: "Las devoluciones solicitadas fuera de los plazos establecidos no serán aceptadas, salvo casos de garantía legal por vicios ocultos." },
+                    { icon: "lucide:shield", text: "Para productos que presenten vicios ocultos o defectos de fabricación no evidentes al momento de la entrega, la garantía legal es de 1 año desde la fecha de compra, según la Ley 1480 de 2011." },
+                    { icon: "lucide:phone", text: "Ante cualquier duda, nuestro equipo está disponible de lunes a viernes de 8:00 a.m. a 5:30 p.m. en tienda@fecolsog.org o al +57 (601) 616-5567." },
+                ].map((item) => (
+                    <div class="flex items-start gap-4 p-5">
+                        <Icon name={item.icon} class="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                        <p class="text-base-content/75 text-sm leading-relaxed">{item.text}</p>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="bg-primary/5 border border-primary/20 rounded-3xl p-10 text-center">
+            <Icon name="lucide:headset" class="w-10 h-10 text-primary mx-auto mb-4" />
+            <h3 class="text-2xl font-black text-base-content mb-2">¿Necesitas ayuda con tu devolución?</h3>
+            <p class="text-base-content/70 mb-6 max-w-md mx-auto text-sm">
+                Escríbenos a <strong>tienda@fecolsog.org</strong> con el asunto "Solicitud de devolución" y tu número de pedido. Te atendemos en máximo 2 días hábiles.
+            </p>
+            <a href="/contact" class="btn btn-primary rounded-full px-8">
+                Ir a Contacto
+            </a>
+        </div>
+
+    </div>
+</Layout>

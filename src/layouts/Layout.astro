@@ -1,0 +1,79 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/navbar/NavBar.astro";
+import AnnouncementBar from "../components/ui/AnnouncementBar.astro";
+import Footer from "../components/footer/Footer.astro";
+import ToasterComponent from "../components/ui/ToasterComponent";
+import CartDrawer from "../components/cart/CartDrawer.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: string;
+}
+
+const {
+    title = "Tienda FECOLSOG | Federación Colombiana de Obstetricia y Ginecología",
+    description = "Tienda oficial de FECOLSOG — Federación Colombiana de Obstetricia y Ginecología. Indumentaria médica, insumos, dispositivos, publicaciones y más.",
+    image = "/assets/og-fecolsog.png",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? "https://tiendaonline.fecolsog.org");
+---
+
+<!doctype html>
+<html lang="es" data-theme="fecolsog">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+
+        <!-- SEO -->
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalURL} />
+        <meta name="theme-color" content="#004F9F" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta property="og:locale" content="es_CO" />
+        <meta property="og:site_name" content="Tienda FECOLSOG" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
+    </head>
+    <body class="bg-base-200 min-h-screen">
+
+        <!-- Skip to content (accesibilidad teclado / lectores de pantalla) -->
+        <a
+            href="#main-content"
+            class="skip-link sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:bg-primary focus:text-primary-content focus:px-6 focus:py-3 focus:rounded-xl focus:font-bold focus:shadow-xl focus:outline-2 focus:outline-offset-2 focus:outline-white"
+        >
+            Ir al contenido principal
+        </a>
+
+        <AnnouncementBar />
+        <Navbar />
+        <main id="main-content" tabindex="-1">
+            <slot />
+        </main>
+        <Footer />
+        <CartDrawer />
+        <ToasterComponent client:load />
+    </body>
+</html>
+
+<style>
+    html,
+    body {
+        margin: 0;
+    }
+</style>
