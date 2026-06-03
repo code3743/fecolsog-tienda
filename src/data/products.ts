@@ -12,6 +12,7 @@ export interface Product {
     badge?: string;
     discount?: number;
     specs?: { label: string; value: string }[];
+    sizes?: string[];
 }
 
 export const products: Product[] = [
@@ -31,6 +32,7 @@ export const products: Product[] = [
         ],
         slug: "bata-medica-fecolsog",
         badge: "Institucional",
+        sizes: ["S", "M", "L", "XL"],
         specs: [
             { label: "Material", value: "Poliéster-Algodón 65/35" },
             { label: "Tallas", value: "S, M, L, XL" },
@@ -54,6 +56,7 @@ export const products: Product[] = [
         slug: "bata-medica-pin-fecolsog",
         badge: "Pack",
         discount: 3,
+        sizes: ["S", "M", "L", "XL"],
         specs: [
             { label: "Incluye", value: "Bata + Pin Dorado" },
             { label: "Tallas", value: "S, M, L, XL" },
@@ -76,6 +79,7 @@ export const products: Product[] = [
         ],
         slug: "traje-antifluido-fecolsog",
         badge: "Protección",
+        sizes: ["S", "M", "L"],
         specs: [
             { label: "Material", value: "SMS Antifluido" },
             { label: "Tallas", value: "S, M, L" },
@@ -99,6 +103,7 @@ export const products: Product[] = [
         slug: "traje-antifluido-pin-fecolsog",
         badge: "Pack",
         discount: 3,
+        sizes: ["S", "M", "L"],
         specs: [
             { label: "Incluye", value: "Traje + Pin Dorado" },
             { label: "Tallas", value: "S, M, L" },
@@ -142,6 +147,7 @@ export const products: Product[] = [
         ],
         slug: "guantes-examinacion-latex",
         badge: "Bestseller",
+        sizes: ["S", "M", "L"],
         specs: [
             { label: "Unidades", value: "100 por caja" },
             { label: "Material", value: "Látex natural" },
@@ -536,6 +542,7 @@ export const products: Product[] = [
             "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop"
         ],
         slug: "polo-corporativo-fecolsog",
+        sizes: ["S", "M", "L", "XL", "XXL"],
         specs: [
             { label: "Material", value: "Piqué algodón 100%" },
             { label: "Tallas", value: "S, M, L, XL, XXL" },

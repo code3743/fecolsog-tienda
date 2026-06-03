@@ -7,9 +7,10 @@ interface Props {
     images: string[];
     stock: number;
     slug: string;
+    sizes?: string[];
 }
 
-const { title, price, images, stock, slug } = Astro.props;
+const { title, price, images, stock, slug, sizes } = Astro.props;
 ---
 
 <div
@@ -38,7 +39,7 @@ const { title, price, images, stock, slug } = Astro.props;
         </button>
         <button
             class="add-to-cart-btn btn btn-circle btn-sm bg-white hover:bg-primary hover:text-white border-none shadow-md"
-            aria-label="Add to Cart"
+            aria-label={sizes && sizes.length > 0 ? `Seleccionar talla de ${title}` : `Agregar ${title} al carrito`}
             data-product={JSON.stringify({
                 id: slug,
                 name: title,
@@ -46,6 +47,8 @@ const { title, price, images, stock, slug } = Astro.props;
                 image: images[0] || "",
                 stock: stock,
             })}
+            data-slug={slug}
+            data-has-sizes={sizes && sizes.length > 0 ? "true" : "false"}
         >
             <Icon name="lucide:shopping-cart" class="w-4 h-4" />
         </button>
@@ -183,6 +186,13 @@ const { title, price, images, stock, slug } = Astro.props;
             btn.addEventListener("click", (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+
+                if (btn.getAttribute("data-has-sizes") === "true") {
+                    const slug = btn.getAttribute("data-slug") || "";
+                    window.location.href = `/product/${slug}`;
+                    return;
+                }
+
                 const product = JSON.parse(
                     btn.getAttribute("data-product") || "{}",
                 );

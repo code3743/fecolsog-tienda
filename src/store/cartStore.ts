@@ -10,6 +10,11 @@ export interface CartItem {
     category?: string;
     discount?: number;
     stock?: number;
+    size?: string;
+}
+
+export function cartItemKey(id: string, size?: string): string {
+    return size ? `${id}__${size}` : id;
 }
 
 export const isCartOpen = atom(false);
@@ -45,52 +50,48 @@ export function closeCart() {
 
 export function addToCart(product: Omit<CartItem, 'quantity'>, qty: number = 1) {
     const items = cartItems.get();
+    const key = cartItemKey(product.id, product.size);
     const currentStock = getEffectiveStock(product.id, product.stock || 0);
-    const existingItem = items.find((item) => item.id === product.id);
+    const existingItem = items.find(item => cartItemKey(item.id, item.size) === key);
 
     if (existingItem) {
         const newQuantity = existingItem.quantity + qty;
-
-        // Stock limit check
         if (newQuantity > currentStock) {
             return { success: false, message: `Solo quedan ${currentStock} unidades disponibles` };
         }
-
         cartItems.set(
-            items.map((item) =>
-                item.id === product.id
+            items.map(item =>
+                cartItemKey(item.id, item.size) === key
                     ? { ...item, quantity: Math.max(0, newQuantity) }
                     : item
             ).filter(item => item.quantity > 0)
         );
     } else if (qty > 0) {
-            // Stock limit check for new item
-            if (qty > currentStock) {
-                return { success: false, message: `Solo quedan ${currentStock} unidades disponibles` };
-            }
-            cartItems.set([...items, { ...product, quantity: qty, stock: currentStock }]);
-        }
-    return { success: true, message: `${product.name} agregado al carrito` };
-}
-
-export function removeFromCart(productId: string) {
-    cartItems.set(cartItems.get().filter((item) => item.id !== productId));
-}
-
-export function updateQuantity(productId: string, qty: number) {
-    const items = cartItems.get();
-    const item = items.find(i => i.id === productId);
-
-    if (item) {
-        const currentStock = getEffectiveStock(productId, item.stock || 0);
         if (qty > currentStock) {
             return { success: false, message: `Solo quedan ${currentStock} unidades disponibles` };
         }
+        cartItems.set([...items, { ...product, quantity: qty, stock: currentStock }]);
+    }
+    return { success: true, message: `${product.name} agregado al carrito` };
+}
 
+export function removeFromCart(key: string) {
+    cartItems.set(cartItems.get().filter(item => cartItemKey(item.id, item.size) !== key));
+}
+
+export function updateQuantity(key: string, qty: number) {
+    const items = cartItems.get();
+    const item = items.find(i => cartItemKey(i.id, i.size) === key);
+
+    if (item) {
+        const currentStock = getEffectiveStock(item.id, item.stock || 0);
+        if (qty > currentStock) {
+            return { success: false, message: `Solo quedan ${currentStock} unidades disponibles` };
+        }
         cartItems.set(
-            items.map((item) =>
-                item.id === productId ? { ...item, quantity: Math.max(0, qty) } : item
-            ).filter(item => item.quantity > 0)
+            items.map(i =>
+                cartItemKey(i.id, i.size) === key ? { ...i, quantity: Math.max(0, qty) } : i
+            ).filter(i => i.quantity > 0)
         );
         return { success: true };
     }

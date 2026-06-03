@@ -106,7 +106,7 @@ import { Icon } from "astro-icon/components";
                     <h4 class="text-xs font-black text-slate-950 uppercase italic truncate tracking-tight">
                         ${item.name}
                     </h4>
-                    <p class="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-2">Cant: ${item.quantity}</p>
+                    <p class="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Cant: ${item.quantity}${item.size ? ` · Talla ${item.size}` : ""}</p>
                     <p class="text-sm font-black text-slate-950 italic">
                         ${formatPrice(item.price * (1 - (item.discount || 0) / 100) * item.quantity)}
                     </p>

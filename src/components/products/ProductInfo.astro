@@ -12,6 +12,7 @@ interface Product {
     image?: string;
     images?: string[];
     specs?: { label: string; value: string }[];
+    sizes?: string[];
 }
 
 interface Props {
@@ -26,7 +27,7 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
 <div
     class="product-info space-y-10"
     data-product={JSON.stringify({
-        id: product.name.toLowerCase().replace(/\s+/g, "-"), // fallback
+        id: product.name.toLowerCase().replace(/\s+/g, "-"),
         name: product.name,
         price: product.price,
         image: product.image || (product as any).images?.[0] || "",
@@ -34,6 +35,7 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
         discount: product.discount,
         stock: product.stock,
     })}
+    data-sizes={JSON.stringify(product.sizes ?? [])}
 >
     <!-- Header Info -->
     <div class="space-y-4">
@@ -104,20 +106,53 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
         </p>
     </div>
 
-    <!-- Specs Grid -->
+    <!-- Specs Grid (se omite la fila "Tallas" cuando hay selector interactivo) -->
     {
         product.specs && (
             <div class="grid grid-cols-2 gap-6 p-8 bg-slate-50 rounded-3xl border border-slate-100">
-                {product.specs.map((spec) => (
-                    <div class="space-y-1">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-600">
-                            {spec.label}
-                        </p>
-                        <p class="text-sm font-bold text-slate-900 uppercase italic">
-                            {spec.value}
-                        </p>
-                    </div>
-                ))}
+                {product.specs
+                    .filter((spec) => !(product.sizes?.length && spec.label === "Tallas"))
+                    .map((spec) => (
+                        <div class="space-y-1">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-600">
+                                {spec.label}
+                            </p>
+                            <p class="text-sm font-bold text-slate-900 uppercase italic">
+                                {spec.value}
+                            </p>
+                        </div>
+                    ))}
+            </div>
+        )
+    }
+
+    <!-- Size Selector -->
+    {
+        product.sizes && product.sizes.length > 0 && (
+            <div class="space-y-3">
+                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">
+                    Talla
+                </h3>
+                <div
+                    id="size-selector"
+                    class="flex flex-wrap gap-2"
+                    role="group"
+                    aria-label="Seleccionar talla"
+                >
+                    {product.sizes.map((size) => (
+                        <button
+                            type="button"
+                            class="size-btn w-12 h-12 rounded-xl border-2 font-black text-sm uppercase transition-all cursor-pointer"
+                            data-size={size}
+                            aria-pressed="false"
+                        >
+                            {size}
+                        </button>
+                    ))}
+                </div>
+                <p id="size-error" class="hidden text-xs font-bold text-red-500">
+                    Seleccione una talla antes de agregar al carrito
+                </p>
             </div>
         )
     }
@@ -204,13 +239,43 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
         const product = JSON.parse(
             productInfo.getAttribute("data-product") || "{}",
         );
+        const sizes: string[] = JSON.parse(
+            productInfo.getAttribute("data-sizes") || "[]",
+        );
+
         const decrementBtn = document.getElementById("decrement-qty");
         const incrementBtn = document.getElementById("increment-qty");
         const quantityDisplay = document.getElementById("quantity-display");
         const addToCartBtn = document.getElementById("add-to-cart-btn");
         const buyNowBtn = document.getElementById("buy-now-btn");
+        const sizeError = document.getElementById("size-error");
+        const sizeBtns = document.querySelectorAll<HTMLButtonElement>(".size-btn");
 
         let quantity = 1;
+        let selectedSize: string | null = sizes.length === 0 ? null : null;
+
+        // Size button logic — visual state via aria-pressed (CSS handles styling)
+        sizeBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                sizeBtns.forEach((b) => b.setAttribute("aria-pressed", "false"));
+                btn.setAttribute("aria-pressed", "true");
+                selectedSize = btn.dataset.size || null;
+                sizeError?.classList.add("hidden");
+            });
+        });
+
+        const buildCartProduct = () => ({
+            ...product,
+            ...(selectedSize ? { size: selectedSize } : {}),
+        });
+
+        const validateSize = () => {
+            if (sizes.length > 0 && !selectedSize) {
+                sizeError?.classList.remove("hidden");
+                return false;
+            }
+            return true;
+        };
 
         const updateUI = () => {
             if (quantityDisplay) quantityDisplay.textContent = String(quantity);
@@ -236,7 +301,8 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
         });
 
         addToCartBtn?.addEventListener("click", () => {
-            const result = addToCart(product, quantity);
+            if (!validateSize()) return;
+            const result = addToCart(buildCartProduct(), quantity);
             if (result.success) {
                 toast.success(result.message);
             } else {
@@ -245,7 +311,8 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
         });
 
         buyNowBtn?.addEventListener("click", () => {
-            const result = addToCart(product, quantity);
+            if (!validateSize()) return;
+            const result = addToCart(buildCartProduct(), quantity);
             if (result.success) {
                 window.location.href = "/checkout";
             } else {
@@ -259,3 +326,21 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
     setupPurchaseActions();
     document.addEventListener("astro:page-load", setupPurchaseActions);
 </script>
+
+<style>
+    .size-btn {
+        border-color: #e2e8f0; /* slate-200 */
+        color: #475569;        /* slate-600 */
+        background-color: transparent;
+    }
+    .size-btn:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+    .size-btn[aria-pressed="true"] {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+        background-color: color-mix(in oklch, var(--color-primary) 8%, transparent);
+        font-weight: 900;
+    }
+</style>
