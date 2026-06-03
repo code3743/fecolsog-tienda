@@ -131,6 +131,7 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
             >
                 <button
                     id="decrement-qty"
+                    aria-label="Disminuir cantidad"
                     class="flex items-center justify-center p-4 hover:bg-slate-800 cursor-pointer rounded-xl transition-colors text-white disabled:opacity-30"
                 >
                     <Icon name="lucide:minus" class="w-4.5 h-4.5" />
@@ -144,6 +145,7 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
 
                 <button
                     id="increment-qty"
+                    aria-label="Aumentar cantidad"
                     class="flex items-center justify-center p-4 hover:bg-slate-800 cursor-pointer rounded-xl transition-colors text-white disabled:opacity-30"
                 >
                     <Icon name="lucide:plus" class="w-4.5 h-4.5" />
