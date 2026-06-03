@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rediseño Tienda FECOLSOG — Universidad del Valle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&family=Hanken+Grotesk:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+
+/* =====================================================
+   VIEWPORT BASE — mandatory fixed 1920×1080 stage
+   ===================================================== */
+html, body { width:100%; height:100%; margin:0; overflow:hidden; background:#B8B2A6; }
+.deck-viewport { position:fixed; inset:0; overflow:hidden; background:#B8B2A6; }
+.deck-stage {
+    position:absolute; left:0; top:0;
+    width:1920px; height:1080px;
+    overflow:hidden; transform-origin:0 0;
+}
+.slide {
+    position:absolute; inset:0;
+    width:1920px; height:1080px;
+    overflow:hidden; display:block;
+    visibility:hidden; opacity:0; pointer-events:none;
+    transition: opacity 0.32s ease;
+}
+.slide.active, .slide.visible { visibility:visible; opacity:1; pointer-events:auto; z-index:1; }
+img, video { max-width:100%; max-height:100%; }
+@media (prefers-reduced-motion:reduce) {
+    *, *::before, *::after { animation-duration:.01ms!important; transition-duration:.2s!important; }
+}
+@media print {
+    html,body{width:1920px;height:auto;overflow:visible;}
+    .deck-viewport{position:static;}
+    .deck-stage{position:static;width:auto;height:auto;transform:none!important;}
+    .slide{position:relative;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;width:1920px;height:1080px;break-after:page;}
+}
+
+/* =====================================================
+   DESIGN SYSTEM — Cobalt Grid FECOLSOG Pitch Edition
+   Cream paper + FECOLSOG blue — speaker-led density
+   ===================================================== */
+:root {
+    --paper:   #F0EBDE;
+    --paper2:  #E6E0CE;
+    --ink:     #004F9F;
+    --ink-dim: rgba(0,79,159,0.22);
+    --gold:    #E8A623;
+    --green:   #00897B;
+    --grid:    rgba(0,79,159,0.08);
+    --serif:   'Newsreader', Georgia, serif;
+    --sans:    'Hanken Grotesk', sans-serif;
+    --mono:    'DM Mono', monospace;
+    --edge:    88px;
+}
+
+/* Graph paper permanent */
+.deck-stage::before {
+    content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+    background-size: 44px 44px;
+}
+
+/* Hairlines on every slide */
+.slide::before, .slide::after {
+    content:''; position:absolute;
+    left:var(--edge); right:var(--edge);
+    height:1.5px; background:var(--ink); z-index:10; opacity:0.35;
+}
+.slide::before { top:30px; }
+.slide::after  { bottom:24px; }
+
+/* Chrome (page num + hint) */
+.chrome {
+    position:absolute; left:var(--edge); right:var(--edge);
+    bottom:52px; display:flex;
+    justify-content:space-between; align-items:center; z-index:10;
+}
+.chrome-hint { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.3; letter-spacing:0.1em; text-transform:uppercase; }
+.chrome-num  { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.4; letter-spacing:0.06em; }
+
+/* Reveal animation — every visible child */
+.rev {
+    opacity:0; transform:translateY(22px);
+    transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+                transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.slide.visible .rev { opacity:1; transform:none; }
+.slide.visible .rev:nth-child(1){ transition-delay:.06s; }
+.slide.visible .rev:nth-child(2){ transition-delay:.14s; }
+.slide.visible .rev:nth-child(3){ transition-delay:.22s; }
+.slide.visible .rev:nth-child(4){ transition-delay:.30s; }
+.slide.visible .rev:nth-child(5){ transition-delay:.38s; }
+.slide.visible .rev:nth-child(6){ transition-delay:.46s; }
+
+/* =====================================================
+   SHARED COMPONENTS
+   ===================================================== */
+.eyebrow {
+    font-family:var(--mono); font-size:14px; color:var(--ink);
+    letter-spacing:0.2em; text-transform:uppercase; opacity:0.4;
+}
+.huge {
+    font-family:var(--serif); font-size:190px; font-weight:400;
+    color:var(--ink); line-height:0.88; letter-spacing:-0.015em;
+}
+.big {
+    font-family:var(--serif); font-size:136px; font-weight:400;
+    color:var(--ink); line-height:0.9; letter-spacing:-0.01em;
+}
+.med {
+    font-family:var(--serif); font-size:88px; font-weight:400;
+    color:var(--ink); line-height:0.96; letter-spacing:-0.007em;
+}
+.body-l {
+    font-family:var(--sans); font-size:28px; font-weight:300;
+    color:var(--ink); line-height:1.5; opacity:0.65;
+}
+.rule-h { height:1.5px; background:var(--ink); opacity:0.2; }
+
+/* PIXEL GLITCH (decorative right column) */
+.glitch-r {
+    position:absolute; right:0; top:0; bottom:0; width:200px; z-index:2; pointer-events:none;
+}
+
+/* =====================================================
+   SLIDE 01 — PORTADA
+   ===================================================== */
+.s01 { background:var(--paper); }
+.s01-body {
+    position:absolute; left:var(--edge); right:260px;
+    top:50%; transform:translateY(-52%);
+    display:flex; flex-direction:column; gap:0; z-index:5;
+}
+.s01-kicker { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.2em; text-transform:uppercase; opacity:0.38; margin-bottom:40px; }
+.s01-title { font-family:var(--serif); font-size:148px; font-weight:400; color:var(--ink); line-height:0.88; letter-spacing:-0.015em; margin:0 0 32px; }
+.s01-sub { font-family:var(--serif); font-size:48px; font-weight:300; font-style:italic; color:var(--ink); opacity:0.45; margin:0 0 60px; }
+.s01-rule { width:56px; height:1.5px; background:var(--ink); opacity:0.3; margin-bottom:36px; }
+.s01-authors { font-family:var(--sans); font-size:24px; font-weight:300; color:var(--ink); opacity:0.6; line-height:1.7; }
+.s01-inst { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.35; letter-spacing:0.18em; text-transform:uppercase; margin-top:16px; }
+
+/* =====================================================
+   SLIDE 02 — EL PROBLEMA (one big stat)
+   ===================================================== */
+.s02 { background:var(--paper); }
+.s02-body {
+    position:absolute; left:var(--edge); top:50%; transform:translateY(-52%);
+    z-index:5;
+}
+.s02-big { font-family:var(--serif); font-size:240px; font-weight:400; color:var(--ink); line-height:0.82; letter-spacing:-0.025em; }
+.s02-label { font-family:var(--sans); font-size:24px; font-weight:600; color:var(--ink); letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; margin-top:20px; }
+.s02-vs {
+    position:absolute; right:var(--edge); top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; align-items:flex-start; gap:12px; z-index:5;
+}
+.s02-vs-label { font-family:var(--mono); font-size:13px; color:var(--ink); opacity:0.35; letter-spacing:0.15em; text-transform:uppercase; }
+.s02-vs-num { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); line-height:0.9; letter-spacing:-0.01em; }
+.s02-vs-sub { font-family:var(--sans); font-size:18px; font-weight:400; color:var(--ink); opacity:0.4; }
+
+/* =====================================================
+   SLIDE 03 — VIOLACIONES WCAG
+   ===================================================== */
+.s03 { background:var(--paper); }
+.s03-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:120px; bottom:100px;
+    display:flex; flex-direction:column; gap:0; z-index:5;
+}
+.s03-title { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); line-height:0.9; letter-spacing:-0.01em; margin-bottom:52px; }
+.s03-list { display:flex; flex-direction:column; gap:0; flex:1; }
+.s03-item {
+    display:flex; align-items:center; gap:40px;
+    padding:22px 0; border-bottom:1px solid var(--ink-dim);
+}
+.s03-item:last-child { border-bottom:none; }
+.s03-crit { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.08em; opacity:0.45; width:88px; flex-shrink:0; }
+.s03-name { font-family:var(--serif); font-size:42px; font-weight:400; color:var(--ink); letter-spacing:-0.003em; width:400px; flex-shrink:0; line-height:1; }
+.s03-desc { font-family:var(--sans); font-size:20px; font-weight:300; color:var(--ink); opacity:0.55; line-height:1.4; }
+
+/* =====================================================
+   SLIDE 04 — LAS 3 RESPUESTAS (pitch statement)
+   ===================================================== */
+.s04 { background:var(--paper); }
+.s04-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:50%; transform:translateY(-52%); z-index:5;
+}
+.s04-eyebrow { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.22em; text-transform:uppercase; opacity:0.35; margin-bottom:52px; }
+.s04-trio { display:flex; gap:0; }
+.s04-word {
+    font-family:var(--serif); font-size:156px; font-weight:400; color:var(--ink);
+    line-height:0.88; letter-spacing:-0.012em; flex:1;
+    border-left:1.5px solid rgba(0,79,159,0.2); padding-left:48px;
+}
+.s04-word:first-child { border-left:none; padding-left:0; }
+.s04-sub { margin-top:52px; font-family:var(--sans); font-size:22px; font-weight:300; color:var(--ink); opacity:0.45; }
+
+/* =====================================================
+   SLIDE 05 — LA PERSONA
+   ===================================================== */
+.s05 { background:var(--paper); }
+.s05-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:50%; transform:translateY(-52%); z-index:5;
+    display:flex; align-items:center; gap:120px;
+}
+.s05-l { flex:0 0 580px; }
+.s05-name { font-family:var(--serif); font-size:136px; font-weight:400; color:var(--ink); line-height:0.88; letter-spacing:-0.012em; }
+.s05-role { font-family:var(--serif); font-size:36px; font-style:italic; color:var(--ink); opacity:0.45; margin-top:20px; line-height:1.3; }
+.s05-r { flex:1; display:flex; flex-direction:column; gap:32px; border-left:1.5px solid rgba(0,79,159,0.2); padding-left:80px; }
+.s05-tag {
+    font-family:var(--sans); font-size:28px; font-weight:300; color:var(--ink); opacity:0.65; line-height:1.45;
+}
+.s05-tag strong { font-weight:600; opacity:1; }
+
+/* =====================================================
+   SLIDE 06 — MICROCOPY ANTES/DESPUÉS
+   ===================================================== */
+.s06 { background:var(--paper); }
+.s06-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:120px; bottom:100px; display:flex; flex-direction:column; z-index:5;
+}
+.s06-title { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); letter-spacing:-0.01em; line-height:0.9; margin-bottom:64px; }
+.s06-pairs { display:flex; flex-direction:column; gap:28px; flex:1; justify-content:center; }
+.s06-pair { display:flex; align-items:center; gap:48px; }
+.s06-bad {
+    font-family:var(--serif); font-size:36px; font-weight:400; color:var(--ink);
+    opacity:0.28; flex:1; line-height:1.2;
+    padding:18px 24px; border:1px solid rgba(0,79,159,0.15);
+    text-decoration:line-through; background:var(--paper2);
+}
+.s06-arrow { font-family:var(--mono); font-size:28px; color:var(--ink); opacity:0.3; flex-shrink:0; }
+.s06-good {
+    font-family:var(--serif); font-size:36px; font-weight:400; color:var(--ink);
+    flex:2; line-height:1.2; padding:18px 24px;
+    border:1.5px solid var(--ink); border-left:4px solid var(--gold);
+}
+
+/* =====================================================
+   SLIDE 07 — STACK (solo nombres grandes)
+   ===================================================== */
+.s07 { background:var(--paper); }
+.s07-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:50%; transform:translateY(-52%); z-index:5;
+}
+.s07-eyebrow { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.22em; text-transform:uppercase; opacity:0.35; margin-bottom:52px; }
+.s07-stack { display:flex; flex-direction:column; gap:12px; }
+.s07-item { display:flex; align-items:baseline; gap:32px; border-bottom:1px solid var(--ink-dim); padding:16px 0; }
+.s07-item:last-child { border-bottom:none; }
+.s07-name { font-family:var(--serif); font-size:72px; font-weight:400; color:var(--ink); letter-spacing:-0.008em; line-height:1; }
+.s07-note { font-family:var(--mono); font-size:14px; color:var(--ink); opacity:0.35; letter-spacing:0.06em; }
+
+/* =====================================================
+   SLIDE 08 — ACCESIBILIDAD (un gran número)
+   ===================================================== */
+.s08 { background:var(--ink); }
+.s08::before, .s08::after { background:rgba(240,235,222,0.25); }
+.s08-body {
+    position:absolute; left:var(--edge); top:50%; transform:translateY(-52%); z-index:5;
+}
+.s08-num {
+    font-family:var(--serif); font-size:340px; font-weight:400;
+    color:var(--paper); line-height:0.78; letter-spacing:-0.025em;
+}
+.s08-label {
+    font-family:var(--sans); font-size:32px; font-weight:600;
+    color:var(--paper); letter-spacing:0.12em; text-transform:uppercase;
+    opacity:0.6; margin-top:16px;
+}
+.s08-aside {
+    position:absolute; right:var(--edge); top:50%; transform:translateY(-50%);
+    z-index:5; display:flex; flex-direction:column; gap:24px;
+    max-width:560px;
+}
+.s08-criterion {
+    display:flex; align-items:center; gap:20px;
+}
+.s08-crit-code { font-family:var(--mono); font-size:14px; color:var(--paper); opacity:0.45; letter-spacing:0.1em; width:72px; flex-shrink:0; }
+.s08-crit-name { font-family:var(--sans); font-size:22px; font-weight:400; color:var(--paper); opacity:0.7; }
+.s08-crit-level {
+    font-family:var(--mono); font-size:12px; letter-spacing:0.08em;
+    padding:4px 10px; border:1px solid rgba(240,235,222,0.3);
+    color:var(--paper); opacity:0.6; margin-left:auto; white-space:nowrap;
+}
+.s08-chrome-hint { color:rgba(240,235,222,0.3); }
+.s08-chrome-num  { color:rgba(240,235,222,0.5); }
+
+/* =====================================================
+   SLIDE 09 — ANTES/DESPUÉS HOME (solo imágenes)
+   ===================================================== */
+.s09 { background:var(--paper); }
+.s09-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:80px; bottom:88px; display:flex; flex-direction:column; z-index:5;
+}
+.s09-topbar { display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid var(--ink); padding-bottom:16px; margin-bottom:24px; opacity:0.9; }
+.s09-topbar-title { font-family:var(--serif); font-size:64px; font-weight:400; color:var(--ink); letter-spacing:-0.007em; line-height:1; }
+.s09-topbar-tag { font-family:var(--mono); font-size:13px; color:var(--ink); letter-spacing:0.08em; opacity:0.45; }
+.s09-grid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+.s09-col { display:flex; flex-direction:column; gap:12px; }
+.s09-col-label { font-family:var(--mono); font-size:12px; color:var(--ink); letter-spacing:0.16em; text-transform:uppercase; opacity:0.4; }
+.s09-img { flex:1; overflow:hidden; background:var(--paper2); border:1px solid var(--ink-dim); }
+.s09-img img { width:100%; height:100%; object-fit:cover; object-position:top; }
+
+/* =====================================================
+   SLIDE 10 — ANTES/DESPUÉS 404
+   ===================================================== */
+.s10 { background:var(--paper); }
+
+/* =====================================================
+   SLIDE 11 — DEMO (impacto máximo)
+   ===================================================== */
+.s11 { background:var(--ink); }
+.s11::before, .s11::after { background:rgba(240,235,222,0.2); }
+.s11-body {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    z-index:5; gap:32px;
+}
+.s11-eyebrow { font-family:var(--mono); font-size:16px; color:var(--paper); letter-spacing:0.3em; text-transform:uppercase; opacity:0.4; }
+.s11-word {
+    font-family:var(--serif); font-size:220px; font-weight:400;
+    color:var(--paper); line-height:0.82; letter-spacing:-0.02em;
+}
+.s11-sub { font-family:var(--sans); font-size:26px; font-weight:300; color:var(--paper); opacity:0.45; letter-spacing:0.06em; }
+/* Animated border pulse */
+.s11-border {
+    position:absolute; inset:40px; border:1.5px solid rgba(240,235,222,0.15);
+    pointer-events:none; z-index:3;
+    animation:pulse-border 3s ease-in-out infinite;
+}
+@keyframes pulse-border {
+    0%,100% { opacity:0.15; }
+    50%      { opacity:0.4; }
+}
+
+/* =====================================================
+   SLIDE 12 — RESULTADOS (números grandes)
+   ===================================================== */
+.s12 { background:var(--paper); }
+.s12-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:100px; bottom:88px; z-index:5;
+    display:flex; flex-direction:column;
+}
+.s12-title { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); letter-spacing:-0.01em; line-height:0.9; margin-bottom:64px; }
+.s12-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; flex:1; }
+.s12-col {
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:0 0 20px 40px; border-left:1.5px solid rgba(0,79,159,0.2);
+    gap:10px;
+}
+.s12-col:first-child { border-left:none; padding-left:0; }
+.s12-n { font-family:var(--serif); font-size:140px; font-weight:400; color:var(--ink); line-height:0.84; letter-spacing:-0.018em; }
+.s12-u { font-family:var(--mono); font-size:16px; color:var(--gold); letter-spacing:0.1em; }
+.s12-l { font-family:var(--sans); font-size:17px; font-weight:600; color:var(--ink); letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; }
+.s12-d { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.3; letter-spacing:0.06em; }
+
+/* =====================================================
+   SLIDE 13 — CIERRE
+   ===================================================== */
+.s13 { background:var(--paper); }
+.s13-body {
+    position:absolute; left:var(--edge); right:var(--edge);
+    top:50%; transform:translateY(-52%); z-index:5;
+}
+.s13-big { font-family:var(--serif); font-size:100px; font-weight:400; color:var(--ink); line-height:1.05; letter-spacing:-0.01em; max-width:1400px; }
+.s13-big em { font-style:italic; }
+.s13-rule { width:100%; height:1.5px; background:var(--ink); opacity:0.15; margin:56px 0; }
+.s13-footnote { font-family:var(--mono); font-size:13px; color:var(--ink); opacity:0.35; letter-spacing:0.12em; text-transform:uppercase; }
+
+/* EDIT UI */
+.edit-hotzone { position:fixed; top:0; left:0; width:80px; height:80px; z-index:10000; cursor:pointer; }
+.edit-toggle {
+    position:fixed; top:18px; left:18px; z-index:10001;
+    background:var(--ink); color:var(--paper); border:none;
+    padding:8px 16px; font-family:var(--mono); font-size:12px;
+    letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity 0.3s;
+}
+.edit-toggle.show, .edit-toggle.active { opacity:1; pointer-events:auto; }
+
+</style>
+</head>
+<body>
+
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle">✏ Editar</button>
+
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+<!-- ==========================================
+     S01 — PORTADA
+     ========================================== -->
+<section class="slide s01 active">
+  <!-- Pixel-glitch decorativo -->
+  <div class="glitch-r" aria-hidden="true">
+    <svg width="200" height="1080" viewBox="0 0 200 1080" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#004F9F" stroke-width="1" opacity="0.1" fill="none">
+        <line x1="18" y1="0" x2="18" y2="1080"/><line x1="36" y1="0" x2="36" y2="1080"/>
+        <line x1="54" y1="0" x2="54" y2="1080"/><line x1="72" y1="0" x2="72" y2="1080"/>
+        <line x1="90" y1="0" x2="90" y2="1080"/><line x1="108" y1="0" x2="108" y2="1080"/>
+        <line x1="126" y1="0" x2="126" y2="1080"/><line x1="144" y1="0" x2="144" y2="1080"/>
+        <line x1="162" y1="0" x2="162" y2="1080"/><line x1="180" y1="0" x2="180" y2="1080"/>
+      </g>
+      <g fill="#004F9F" opacity="0.06">
+        <rect x="0" y="100" width="200" height="36"/>
+        <rect x="18" y="240" width="182" height="36"/>
+        <rect x="36" y="380" width="164" height="36"/>
+        <rect x="54" y="520" width="146" height="36"/>
+        <rect x="36" y="660" width="164" height="36"/>
+        <rect x="18" y="800" width="182" height="36"/>
+        <rect x="0" y="940" width="200" height="36"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="s01-body">
+    <div class="s01-kicker rev">Entregables 2 & 3 — Universidad del Valle</div>
+    <h1 class="s01-title rev">Rediseño de<br/>Contenido e<br/>Interfaz Inclusiva</h1>
+    <p class="s01-sub rev">Tienda en Línea FECOLSOG</p>
+    <div class="s01-rule rev"></div>
+    <div class="s01-authors rev">Jota Emilio López Ramírez<br/>Esmeralda Rivas Guzmán</div>
+    <div class="s01-inst rev">Universidad del Valle · Ingeniería de Sistemas · 2026</div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">→ Flechas para navegar · E para editar</span><span class="chrome-num">01 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S02 — EL PROBLEMA
+     ========================================== -->
+<section class="slide s02">
+  <div class="s02-body">
+    <div class="s02-big rev">55<span style="font-size:96px;opacity:0.35;">/100</span></div>
+    <div class="s02-label rev">Lighthouse · Accesibilidad</div>
+  </div>
+  <div class="s02-vs">
+    <div class="rev">
+      <div class="s02-vs-label">Contraste real</div>
+      <div class="s02-vs-num" style="opacity:0.32;text-decoration:line-through;">1,61:1</div>
+      <div class="s02-vs-sub">umbral mínimo WCAG AA</div>
+    </div>
+    <div style="width:2px;height:80px;background:var(--ink);opacity:0.15;margin:12px 0;" class="rev"></div>
+    <div class="rev">
+      <div class="s02-vs-label">Requerido</div>
+      <div class="s02-vs-num">4,5:1</div>
+      <div class="s02-vs-sub">criterio 1.4.3 WCAG 2.1</div>
+    </div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">El problema</span><span class="chrome-num">02 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S03 — VIOLACIONES IDENTIFICADAS
+     ========================================== -->
+<section class="slide s03">
+  <div class="s03-body">
+    <h2 class="s03-title rev">6 Fallas Críticas</h2>
+    <div class="s03-list">
+      <div class="s03-item rev">
+        <div class="s03-crit">W1.4.3</div>
+        <div class="s03-name">Contraste</div>
+        <div class="s03-desc">1,61:1 · El texto es ilegible para usuarios con baja visión</div>
+      </div>
+      <div class="s03-item rev">
+        <div class="s03-crit">W1.4.4</div>
+        <div class="s03-name">Zoom bloqueado</div>
+        <div class="s03-desc">user-scalable=no · Impide el redimensionamiento del texto</div>
+      </div>
+      <div class="s03-item rev">
+        <div class="s03-crit">W3.1.1</div>
+        <div class="s03-name">Sin idioma</div>
+        <div class="s03-desc">Ausencia de lang="es" · Los lectores de pantalla fallan</div>
+      </div>
+      <div class="s03-item rev">
+        <div class="s03-crit">W3.3.2</div>
+        <div class="s03-name">Sin etiquetas</div>
+        <div class="s03-desc">Formularios sin &lt;label&gt; · Solo placeholders que desaparecen</div>
+      </div>
+      <div class="s03-item rev">
+        <div class="s03-crit">H2 · H9</div>
+        <div class="s03-name">Errores opacos</div>
+        <div class="s03-desc">«Error 404» en inglés · Sin orientación ni ruta de recuperación</div>
+      </div>
+      <div class="s03-item rev">
+        <div class="s03-crit">W2.4.1</div>
+        <div class="s03-name">Sin skip link</div>
+        <div class="s03-desc">Usuarios de teclado recorren toda la navegación en cada página</div>
+      </div>
+    </div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Diagnóstico</span><span class="chrome-num">03 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S04 — NUESTRA RESPUESTA
+     ========================================== -->
+<section class="slide s04">
+  <div class="s04-body">
+    <div class="s04-eyebrow rev">La propuesta — tres componentes</div>
+    <div class="s04-trio">
+      <div class="s04-word rev">Voz<br/>&amp;<br/>Tono</div>
+      <div class="s04-word rev">Story<br/>telling</div>
+      <div class="s04-word rev">Micro<br/>copy</div>
+    </div>
+    <div class="s04-sub rev">+ Implementación técnica que corrige las violaciones WCAG identificadas</div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Propuesta</span><span class="chrome-num">04 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S05 — LA PERSONA
+     ========================================== -->
+<section class="slide s05">
+  <div class="s05-body">
+    <div class="s05-l">
+      <div class="eyebrow rev" style="margin-bottom:28px;">Persona primaria</div>
+      <div class="s05-name rev">Dra. María<br/>Restrepo</div>
+      <div class="s05-role rev">Ginecobstetra · 45 años · Bogotá</div>
+    </div>
+    <div class="s05-r">
+      <div class="s05-tag rev"><strong>Necesita</strong> libros, congresos, indumentaria médica</div>
+      <div class="s05-tag rev"><strong>Frustra</strong> lo engorroso, los errores sin explicación, el inglés</div>
+      <div class="s05-tag rev"><strong>Tolera</strong> poca fricción — abandona en segundos</div>
+      <div class="s05-tag rev"><strong>Fideliza</strong> si la primera compra es clara y confiable</div>
+    </div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Storytelling</span><span class="chrome-num">05 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S06 — MICROCOPY ANTES/DESPUÉS
+     ========================================== -->
+<section class="slide s06">
+  <div class="s06-body">
+    <h2 class="s06-title rev">Microcopy</h2>
+    <div class="s06-pairs">
+      <div class="s06-pair rev">
+        <div class="s06-bad">Comprar</div>
+        <div class="s06-arrow">→</div>
+        <div class="s06-good"><strong>Agregar al carrito</strong></div>
+      </div>
+      <div class="s06-pair rev">
+        <div class="s06-bad">404 – File or directory not found</div>
+        <div class="s06-arrow">→</div>
+        <div class="s06-good"><strong>Página no encontrada. Vuelve al inicio.</strong></div>
+      </div>
+      <div class="s06-pair rev">
+        <div class="s06-bad">Campo obligatorio (al pie del formulario)</div>
+        <div class="s06-arrow">→</div>
+        <div class="s06-good"><strong>El número de identificación es obligatorio.</strong> (junto al campo)</div>
+      </div>
+    </div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Microcopy</span><span class="chrome-num">06 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S07 — STACK TÉCNICO
+     ========================================== -->
+<section class="slide s07">
+  <div class="s07-body">
+    <div class="s07-eyebrow rev">Implementación técnica</div>
+    <div class="s07-stack">
+      <div class="s07-item rev">
+        <div class="s07-name">Astro 5</div>
+        <div class="s07-note">SSG · HTML estático · sin JS innecesario</div>
+      </div>
+      <div class="s07-item rev">
+        <div class="s07-name">Tailwind CSS v4</div>
+        <div class="s07-note">CSS-first · tema OKLCH institucional</div>
+      </div>
+      <div class="s07-item rev">
+        <div class="s07-name">DaisyUI v5</div>
+        <div class="s07-note">Componentes WAI-ARIA nativos</div>
+      </div>
+      <div class="s07-item rev">
+        <div class="s07-name">React 19</div>
+        <div class="s07-note">Solo para carrito & notificaciones</div>
+      </div>
+    </div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Stack</span><span class="chrome-num">07 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S08 — ACCESIBILIDAD
+     ========================================== -->
+<section class="slide s08">
+  <div class="s08-body">
+    <div class="s08-num rev">9</div>
+    <div class="s08-label rev">Criterios WCAG 2.1 corregidos</div>
+  </div>
+  <div class="s08-aside">
+    <div class="s08-criterion rev"><div class="s08-crit-code">1.4.3</div><div class="s08-crit-name">Contraste 1,61:1 → 8,6:1</div><div class="s08-crit-level">AAA</div></div>
+    <div class="s08-criterion rev"><div class="s08-crit-code">2.4.1</div><div class="s08-crit-name">Skip link al contenido principal</div><div class="s08-crit-level">A</div></div>
+    <div class="s08-criterion rev"><div class="s08-crit-code">2.4.7</div><div class="s08-crit-name">Foco visible global (:focus-visible)</div><div class="s08-crit-level">AA</div></div>
+    <div class="s08-criterion rev"><div class="s08-crit-code">1.3.1</div><div class="s08-crit-name">Semántica + breadcrumbs Schema.org</div><div class="s08-crit-level">A</div></div>
+    <div class="s08-criterion rev"><div class="s08-crit-code">3.1.1</div><div class="s08-crit-name">lang="es" en todos los documentos</div><div class="s08-crit-level">A</div></div>
+    <div class="s08-criterion rev"><div class="s08-crit-code">1.4.4</div><div class="s08-crit-name">Zoom habilitado · fuentes en rem</div><div class="s08-crit-level">AA</div></div>
+  </div>
+  <div class="chrome" style="color:var(--paper);">
+    <span class="chrome-hint s08-chrome-hint">Accesibilidad</span>
+    <span class="chrome-num s08-chrome-num">08 / 13</span>
+  </div>
+</section>
+
+<!-- ==========================================
+     S09 — PASAMOS DE ESTO (before 404)
+     ========================================== -->
+<section class="slide" style="background:var(--paper);">
+  <!-- Texto grande izquierda -->
+  <div style="position:absolute;left:var(--edge);top:50%;transform:translateY(-52%);width:640px;z-index:5;display:flex;flex-direction:column;gap:20px;">
+    <div class="eyebrow rev" style="margin-bottom:12px;">Error 404 · Original</div>
+    <div style="font-family:var(--serif);font-size:148px;font-weight:400;color:var(--ink);line-height:0.88;letter-spacing:-0.015em;" class="rev">Pasamos<br/>de<br/>esto…</div>
+    <div style="font-family:var(--sans);font-size:22px;font-weight:300;color:var(--ink);opacity:0.45;line-height:1.5;margin-top:16px;" class="rev">
+      Servidor IIS en inglés<br/>Sin marca · Sin navegación<br/>Sin acción de recuperación
+    </div>
+  </div>
+  <!-- Imagen grande derecha -->
+  <div style="position:absolute;right:0;top:30px;bottom:30px;width:1080px;z-index:4;overflow:hidden;border-left:1.5px solid var(--ink-dim);" class="rev">
+    <img src="../informe/img/before-404.png"
+         alt="Página 404 original del servidor IIS: mensaje en inglés sin navegación ni recuperación"
+         style="width:100%;height:100%;object-fit:contain;object-position:center;"
+         loading="lazy"/>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Antes / Después</span><span class="chrome-num">09 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S10 — A ESTO (after 404)
+     ========================================== -->
+<section class="slide" style="background:var(--paper);">
+  <!-- Texto grande izquierda -->
+  <div style="position:absolute;left:var(--edge);top:50%;transform:translateY(-52%);width:640px;z-index:5;display:flex;flex-direction:column;gap:20px;">
+    <div class="eyebrow rev" style="margin-bottom:12px;">Error 404 · Rediseñado</div>
+    <div style="font-family:var(--serif);font-size:148px;font-weight:400;color:var(--ink);line-height:0.88;letter-spacing:-0.015em;" class="rev">a<br/>esto.</div>
+    <div style="font-family:var(--sans);font-size:22px;font-weight:300;color:var(--ink);opacity:0.45;line-height:1.5;margin-top:16px;" class="rev">
+      En español · Marca FECOLSOG<br/>Navegación completa<br/>Botón «Volver al inicio»
+    </div>
+    <div style="font-family:var(--mono);font-size:12px;color:var(--ink);opacity:0.3;letter-spacing:0.12em;text-transform:uppercase;margin-top:8px;" class="rev">H2 · H9 Nielsen · WCAG 3.3.3</div>
+  </div>
+  <!-- Imagen grande derecha -->
+  <div style="position:absolute;right:0;top:30px;bottom:30px;width:1080px;z-index:4;overflow:hidden;border-left:2px solid var(--ink);" class="rev">
+    <img src="../informe/img/after-404.png"
+         alt="Página 404 rediseñada con navegación FECOLSOG completa, mensaje en español y botón volver al inicio"
+         style="width:100%;height:100%;object-fit:contain;object-position:center;"
+         loading="lazy"/>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Antes / Después</span><span class="chrome-num">10 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S11 — DEMO
+     ========================================== -->
+<section class="slide s11">
+  <div class="s11-border"></div>
+  <div class="s11-body">
+    <div class="s11-eyebrow rev">A continuación</div>
+    <div class="s11-word rev">Demo</div>
+    <div class="s11-sub rev">tiendaonline · rediseño implementado · Astro 5</div>
+  </div>
+  <div class="chrome">
+    <span class="chrome-hint" style="color:rgba(240,235,222,0.3);">Demo en vivo</span>
+    <span class="chrome-num" style="color:rgba(240,235,222,0.45);">11 / 13</span>
+  </div>
+</section>
+
+<!-- ==========================================
+     S12 — RESULTADOS
+     ========================================== -->
+<section class="slide s12">
+  <div class="s12-body">
+    <h2 class="s12-title rev">Resultados</h2>
+    <div class="s12-grid">
+      <div class="s12-col rev">
+        <div class="s12-n">8,6:1</div>
+        <div class="s12-u">AAA</div>
+        <div class="s12-l">Contraste</div>
+        <div class="s12-d">antes 1,61:1</div>
+      </div>
+      <div class="s12-col rev">
+        <div class="s12-n">9</div>
+        <div class="s12-u" style="color:var(--green);">Corregidos</div>
+        <div class="s12-l">Criterios WCAG</div>
+        <div class="s12-d">antes 0 conformes</div>
+      </div>
+      <div class="s12-col rev">
+        <div class="s12-n">×8</div>
+        <div class="s12-u">Crecimiento</div>
+        <div class="s12-l">Catálogo</div>
+        <div class="s12-d">4 → 33 productos</div>
+      </div>
+      <div class="s12-col rev">
+        <div class="s12-n">11</div>
+        <div class="s12-u">Páginas</div>
+        <div class="s12-l">Contenido nuevo</div>
+        <div class="s12-d">blog + soporte</div>
+      </div>
+    </div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Resultados</span><span class="chrome-num">12 / 13</span></div>
+</section>
+
+<!-- ==========================================
+     S13 — CONCLUSIÓN
+     ========================================== -->
+<section class="slide s13">
+  <div class="s13-body">
+    <div style="font-family:var(--serif);font-size:260px;font-weight:400;color:var(--ink);line-height:0.85;letter-spacing:-0.02em;" class="rev">Gracias.</div>
+    <div style="font-family:var(--mono);font-size:14px;color:var(--ink);opacity:0.3;letter-spacing:0.18em;text-transform:uppercase;margin-top:52px;" class="rev">Jota Emilio López Ramírez · Esmeralda Rivas Guzmán</div>
+  </div>
+  <div class="chrome"><span class="chrome-hint">Conclusión</span><span class="chrome-num">13 / 13</span></div>
+</section>
+
+</main>
+</div>
+
+<script>
+/* =====================================================
+   SLIDE CONTROLLER
+   ===================================================== */
+class Deck {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.n = this.slides.length;
+        this.i = 0;
+        this.stage = document.getElementById('deckStage');
+        this.scale();
+        window.addEventListener('resize', () => this.scale());
+        this.keys();
+        this.touch();
+        this.wheel();
+        this.show(0);
+    }
+
+    scale() {
+        const f = Math.min(innerWidth/1920, innerHeight/1080);
+        const x = (innerWidth  - 1920*f)/2;
+        const y = (innerHeight - 1080*f)/2;
+        this.stage.style.transform = `translate(${x}px,${y}px) scale(${f})`;
+    }
+
+    show(idx) {
+        this.i = Math.max(0, Math.min(idx, this.n-1));
+        this.slides.forEach((s,j) => {
+            s.classList.toggle('active',  j===this.i);
+            s.classList.toggle('visible', j===this.i);
+        });
+    }
+
+    next() { this.show(this.i+1); }
+    prev() { this.show(this.i-1); }
+
+    keys() {
+        document.addEventListener('keydown', e => {
+            if (e.target.contentEditable === 'true') return;
+            if (['ArrowRight','ArrowDown','Space','PageDown'].includes(e.code)) { e.preventDefault(); this.next(); }
+            if (['ArrowLeft','ArrowUp','PageUp'].includes(e.code)) { e.preventDefault(); this.prev(); }
+            if (e.code==='Home') this.show(0);
+            if (e.code==='End')  this.show(this.n-1);
+        });
+    }
+
+    touch() {
+        let sx=0, sy=0;
+        this.stage.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; sy=e.touches[0].clientY; },{passive:true});
+        this.stage.addEventListener('touchend', e=>{
+            const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+            if (Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>40) dx<0?this.next():this.prev();
+        });
+    }
+
+    wheel() {
+        let t=0;
+        this.stage.addEventListener('wheel', e=>{
+            const now=Date.now(); if(now-t<700)return; t=now;
+            e.deltaY>0?this.next():this.prev();
+        },{passive:true});
+    }
+}
+
+const deck = new Deck();
+
+/* Inline editing */
+const editor = {
+    on: false,
+    toggle() {
+        this.on = !this.on;
+        document.querySelectorAll('.slide *').forEach(el=>{
+            if (['H1','H2','H3','P','DIV','SPAN','TD','LI'].includes(el.tagName) &&
+                !el.children.length && el.textContent.trim()) {
+                el.contentEditable = this.on?'true':'false';
+            }
+        });
+        editToggle.textContent = this.on?'✓ Listo':'✏ Editar';
+        editToggle.classList.toggle('active', this.on);
+    }
+};
+
+const editToggle  = document.getElementById('editToggle');
+const editHotzone = document.getElementById('editHotzone');
+let hideT = null;
+
+editHotzone.addEventListener('mouseenter', ()=>{ clearTimeout(hideT); editToggle.classList.add('show'); });
+editHotzone.addEventListener('mouseleave', ()=>{ hideT=setTimeout(()=>{ if(!editor.on) editToggle.classList.remove('show'); },400); });
+editToggle.addEventListener('mouseenter',  ()=>clearTimeout(hideT));
+editToggle.addEventListener('mouseleave',  ()=>{ hideT=setTimeout(()=>{ if(!editor.on) editToggle.classList.remove('show'); },400); });
+editHotzone.addEventListener('click', ()=>editor.toggle());
+editToggle.addEventListener('click', ()=>editor.toggle());
+document.addEventListener('keydown', e=>{
+    if ((e.key==='e'||e.key==='E') && e.target.contentEditable!=='true') editor.toggle();
+});
+</script>
+</body>
+</html>
