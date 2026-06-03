@@ -8,13 +8,21 @@
     --color-secondary: oklch(54% 0.131 164);
     --color-secondary-content: oklch(100% 0 0);
     --color-accent: oklch(73% 0.153 70);
-    --color-accent-content: oklch(100% 0 0);
+    --color-accent-content: oklch(15% 0.05 70);
     --color-neutral: oklch(33% 0.03 240);
     --color-neutral-content: oklch(97% 0.005 250);
     --color-base-100: oklch(100% 0 0);
     --color-base-200: oklch(96% 0.01 240);
     --color-base-300: oklch(91% 0.018 240);
     --color-base-content: oklch(22% 0.04 248);
+    --color-success: oklch(45% 0.12 145);
+    --color-success-content: oklch(100% 0 0);
+
+    --color-error: oklch(50% 0.18 25);
+    --color-error-content: oklch(100% 0 0);
+
+    --color-warning: oklch(65% 0.15 80);
+    --color-warning-content: oklch(20% 0.03 80);
 }
 
 /* ── Focus visible global ─────────────────────────────────────────────────── */

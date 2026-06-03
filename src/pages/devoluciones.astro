@@ -153,7 +153,7 @@ const policies = [
             <Icon name="lucide:scale" class="w-6 h-6 text-primary shrink-0 mt-0.5" />
             <div>
                 <h3 class="font-black text-base-content mb-1">Marco Legal</h3>
-                <p class="text-base-content/70 text-sm leading-relaxed">
+                <p class="text-base-content/85 text-sm leading-relaxed">
                     Esta política de devoluciones está enmarcada en la <strong>Ley 1480 de 2011 (Estatuto del Consumidor colombiano)</strong>, que garantiza el derecho de retracto dentro de los 5 días hábiles siguientes a la entrega del producto, en compras realizadas a través de canales no presenciales (tiendas en línea).
                 </p>
             </div>
@@ -178,7 +178,7 @@ const policies = [
                         </div>
                         <Icon name={item.icon} class="w-6 h-6 text-primary mx-auto mb-2" />
                         <h3 class="font-black text-base-content mb-2 text-sm">{item.title}</h3>
-                        <p class="text-base-content/60 text-xs leading-relaxed">{item.desc}</p>
+                        <p class="text-base-content/80 text-xs leading-relaxed">{item.desc}</p>
                     </div>
                 ))}
             </div>
@@ -208,8 +208,8 @@ const policies = [
                             {policy.items.map((item) => (
                                 <tr class="bg-base-100 hover:bg-base-200/50 transition-colors">
                                     <td class="p-4 text-base-content font-medium leading-snug">{item.condition}</td>
-                                    <td class="p-4 text-base-content/60 hidden sm:table-cell">{item.deadline}</td>
-                                    <td class="p-4 text-base-content/70 leading-snug">{item.resolution}</td>
+                                    <td class="p-4 text-base-content/80 hidden sm:table-cell">{item.deadline}</td>
+                                    <td class="p-4 text-base-content/85 leading-snug">{item.resolution}</td>
                                     <td class="p-4 text-center">
                                         {item.allowed ? (
                                             <span class="inline-flex items-center justify-center w-7 h-7 bg-emerald-100 text-emerald-600 rounded-full">
@@ -245,7 +245,7 @@ const policies = [
                 ].map((item) => (
                     <div class="flex items-start gap-4 p-5">
                         <Icon name={item.icon} class="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                        <p class="text-base-content/75 text-sm leading-relaxed">{item.text}</p>
+                        <p class="text-base-content/85 text-sm leading-relaxed">{item.text}</p>
                     </div>
                 ))}
             </div>
@@ -255,7 +255,7 @@ const policies = [
         <div class="bg-primary/5 border border-primary/20 rounded-3xl p-10 text-center">
             <Icon name="lucide:headset" class="w-10 h-10 text-primary mx-auto mb-4" />
             <h3 class="text-2xl font-black text-base-content mb-2">¿Necesitas ayuda con tu devolución?</h3>
-            <p class="text-base-content/70 mb-6 max-w-md mx-auto text-sm">
+            <p class="text-base-content/85 mb-6 max-w-md mx-auto text-sm">
                 Escríbenos a <strong>tienda@fecolsog.org</strong> con el asunto "Solicitud de devolución" y tu número de pedido. Te atendemos en máximo 2 días hábiles.
             </p>
             <a href="/contact" class="btn btn-primary rounded-full px-8">

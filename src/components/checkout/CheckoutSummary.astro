@@ -27,16 +27,16 @@ import { Icon } from "astro-icon/components";
 
     <div class="space-y-4 pt-6 border-t border-slate-100">
         <div
-            class="flex justify-between text-slate-500 font-bold text-xs uppercase tracking-widest"
+            class="flex justify-between text-slate-700 font-bold text-xs uppercase tracking-widest"
         >
             <span>Subtotal COP</span>
             <span id="checkout-subtotal">$ 0</span>
         </div>
         <div
-            class="flex justify-between text-slate-500 font-bold text-xs uppercase tracking-widest"
+            class="flex justify-between text-slate-700 font-bold text-xs uppercase tracking-widest"
         >
             <span>Envío</span>
-            <span class="text-emerald-500">Gratis</span>
+            <span class="text-emerald-800">Gratis</span>
         </div>
         <div
             id="checkout-savings-container"
@@ -91,7 +91,7 @@ import { Icon } from "astro-icon/components";
         if (!itemsContainer) return;
 
         if (items.length === 0) {
-            itemsContainer.innerHTML = `<p class="text-slate-400 font-medium italic">Tu carrito está vacío.</p>`;
+            itemsContainer.innerHTML = `<p class="text-slate-600 font-medium italic">Tu carrito está vacío.</p>`;
             return;
         }
 
@@ -106,7 +106,7 @@ import { Icon } from "astro-icon/components";
                     <h4 class="text-xs font-black text-slate-950 uppercase italic truncate tracking-tight">
                         ${item.name}
                     </h4>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Cant: ${item.quantity}</p>
+                    <p class="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-2">Cant: ${item.quantity}</p>
                     <p class="text-sm font-black text-slate-950 italic">
                         ${formatPrice(item.price * (1 - (item.discount || 0) / 100) * item.quantity)}
                     </p>

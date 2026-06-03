@@ -39,7 +39,7 @@ Tuluá, Colombia}
 \maketitle
 
 \begin{abstract}
-Este artículo presenta el proceso y los resultados del rediseño de contenido e interfaz de la tienda en línea de la Federación Colombiana de Obstetricia y Ginecología (FECOLSOG). Un diagnóstico previo determinó una puntuación de accesibilidad de 55/100 mediante la herramienta Lighthouse, revelando violaciones a las Pautas de Accesibilidad al Contenido Web (WCAG) 2.1 y a múltiples heurísticas de Nielsen. La metodología integra tres estrategias complementarias: (1) definición de voz y tono mediante el marco de Nielsen Norman Group, (2) construcción de un arco narrativo basado en la metodología de storytelling para UX, y (3) rediseño sistemático del microcopy para los flujos críticos de compra, búsqueda, inscripción a eventos y gestión de errores. La implementación técnica se realizó mediante Astro~5, Tailwind CSS~v4 y DaisyUI~v5, materializando un sistema de diseño accesible y coherente con la identidad institucional. Los resultados incluyen la corrección de los criterios WCAG~2.1 identificados en el diagnóstico, la incorporación de mecanismos de navegación accesibles y un catálogo de 33 productos organizados en seis categorías especializadas, todo ello documentado con comparaciones antes/después medibles.
+Este artículo presenta el proceso y los resultados del rediseño de contenido e interfaz de la tienda en línea de la Federación Colombiana de Obstetricia y Ginecología (FECOLSOG). Un diagnóstico previo determinó una puntuación de accesibilidad de 55/100 mediante la herramienta Lighthouse, revelando violaciones a las Pautas de Accesibilidad al Contenido Web (WCAG) 2.1 y a múltiples heurísticas de Nielsen. La metodología integra tres estrategias complementarias: (1) definición de voz y tono mediante el marco de Nielsen Norman Group, (2) construcción de un arco narrativo basado en la metodología de storytelling para UX, y (3) rediseño sistemático del microcopy para los flujos críticos de compra, búsqueda, inscripción a eventos y gestión de errores. La implementación técnica se realizó mediante Astro~5, Tailwind CSS~v4 y DaisyUI~v5, materializando un sistema de diseño accesible y coherente con la identidad institucional. Los resultados incluyen la corrección de los criterios WCAG~2.1 identificados en el diagnóstico, la incorporación de mecanismos de navegación accesibles y un catálogo de 33 productos organizados en seis categorías especializadas, todo ello validado mediante auditorías Google Lighthouse que confirman una puntuación de accesibilidad de 100/100 en las siete pantallas evaluadas: \textit{Home}, \textit{About}, \textit{Blog}, \textit{Blog post}, \textit{Category}, \textit{Checkout} y \textit{Contact}.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -565,6 +565,93 @@ La versión rediseñada mantiene el contexto institucional completo (barra de an
 \label{fig:after-404}
 \end{figure}
 
+Las Figuras~\ref{fig:before-buy} y~\ref{fig:after-buy} comparan el flujo de compra de producto. La versión original presenta el botón de acción genérico ``Comprar'', sin etiqueta asociada al selector de cantidad y sin información de estado de inventario, lo que incumple WCAG 2.4.6 (Encabezados y etiquetas) y la heurística H1 de Nielsen (Visibilidad del estado del sistema). La versión rediseñada incorpora el botón ``Agregar al carrito'' con \texttt{aria-label} descriptivo, indicador de disponibilidad de inventario, selector de cantidad accesible mediante teclado, precio formateado en pesos colombianos (COP) y descripción técnica del producto con jerarquía visual de encabezados.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{img/before-buy.png}
+\caption{Flujo de compra original. Botón genérico ``Comprar'', ausencia de etiquetas semánticas en el selector de cantidad, sin indicador de inventario y precio sin formato local.}
+\label{fig:before-buy}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{img/after-buy.png}
+\caption{Flujo de compra rediseñado. Botón ``Agregar al carrito'' con \texttt{aria-label}, selector de cantidad accesible por teclado, indicador de inventario y precio en COP. Cumple WCAG 2.4.6, 3.3.2 y H1 (Nielsen).}
+\label{fig:after-buy}
+\end{figure}
+
+Las Figuras~\ref{fig:before-policies} y~\ref{fig:after-policies} ilustran la ausencia de páginas de política institucional en la versión original frente a las páginas rediseñadas de envíos (\texttt{/envios}) y devoluciones (\texttt{/devoluciones}). La versión original no disponía de páginas dedicadas para esta información, lo que obliga al usuario a abandonar el flujo de compra para buscar condiciones en fuentes externas, transgrediendo la heurística H6 de Nielsen (Reconocimiento antes que recuerdo) y el criterio WCAG 2.4.2 (Página titulada). La versión rediseñada incorpora páginas completas con jerarquía de encabezados estrictamente descendente (\texttt{h1}/\texttt{h2}/\texttt{h3}), tablas de condiciones accesibles con encabezados de columna semánticos y navegación institucional completa, en cumplimiento de WCAG 1.3.1.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{img/before-policies.png}
+\caption{Políticas en la versión original. Ausencia de páginas institucionales dedicadas; el usuario no dispone de información estructurada sobre envíos ni devoluciones en el sitio. Viola H6 (Nielsen) y WCAG 2.4.2.}
+\label{fig:before-policies}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{img/after-policies.png}
+\caption{Páginas de política rediseñadas (\texttt{/envios} y \texttt{/devoluciones}). Estructura HTML semántica con jerarquía de encabezados correcta, tablas de condiciones accesibles e información de cobertura por zonas. Cumple WCAG 1.3.1, 2.4.2 y H6 (Nielsen).}
+\label{fig:after-policies}
+\end{figure}
+
+\subsection{Pruebas de accesibilidad con Lighthouse}
+
+Para validar objetivamente las correcciones de accesibilidad implementadas, se ejecutaron auditorías automatizadas con Google Lighthouse~\cite{lighthouse} en las siete pantallas de mayor tráfico y complejidad de la tienda rediseñada: \textit{Home} (página de inicio), \textit{About} (quiénes somos), \textit{Blog} (índice de artículos), \textit{Blog post} (artículo individual), \textit{Category} (listado por categoría), \textit{Checkout} (formulario de pago) y \textit{Contact} (página de contacto). Las auditorías se realizaron en modo escritorio con la caché deshabilitada, condiciones que reproducen el escenario de evaluación del Entregable~1.
+
+\subsubsection{Problemas detectados en la auditoría inicial}
+
+Las primeras ejecuciones de Lighthouse sobre la versión rediseñada identificaron dos categorías de problemas transversales a múltiples pantallas:
+
+\begin{itemize}
+    \item \textbf{Contraste de color insuficiente:} determinados pares cromáticos —particularmente textos de navegación sobre el fondo de color primario institucional y etiquetas secundarias en tarjetas de producto— presentaban relaciones de contraste por debajo del umbral de 4,5:1 requerido por el criterio WCAG 1.4.3 (nivel AA). El problema se originó en una inconsistencia entre los valores OKLCH definidos en el tema central y los colores heredados por algunos componentes de DaisyUI en sus estados interactivos (\textit{hover}, \textit{active}).
+    \item \textbf{Jerarquía de encabezados no secuencial:} determinados componentes reutilizables omitían niveles intermedios de encabezado —por ejemplo, transiciones directas de \texttt{h2} a \texttt{h4} sin \texttt{h3} intermedio— o duplicaban el elemento \texttt{h1} en páginas con estructura de múltiples secciones (como la página de blog). Esto viola el criterio WCAG 1.3.1 (Información y relaciones) y compromete la navegación eficiente de usuarios que dependen de lectores de pantalla, quienes utilizan la jerarquía de encabezados como mecanismo de orientación estructural.
+\end{itemize}
+
+\subsubsection{Correcciones aplicadas}
+
+Los problemas de contraste se resolvieron revisando y ajustando las variables de color del tema \texttt{fecolsog} para todos los estados interactivos y contextos de uso, garantizando que cada par cromático de texto/fondo superara el umbral mínimo AA en todos los componentes afectados (\texttt{Navbar}, \texttt{Links}, \texttt{BlogCard}, \texttt{CardProduct}, \texttt{Footer}). Los problemas de jerarquía se corrigieron auditando la secuencia de encabezados en cada componente compartido y en cada plantilla de página, asegurando que el marcado HTML resultante presentara siempre una secuencia estrictamente descendente e ininterrumpida, independientemente del contexto de renderizado.
+
+\subsubsection{Resultados finales}
+
+Tras aplicar las correcciones de contraste y jerarquía, todas las pantallas auditadas alcanzaron una puntuación de accesibilidad de \textbf{100/100} en Lighthouse, como se detalla en la Tabla~\ref{tab:lighthouse}. Este resultado supera ampliamente el umbral de referencia de 90/100 establecido en el Entregable~1 y verifica que las intervenciones de rediseño no introdujeron nuevas violaciones de accesibilidad en ninguno de los flujos evaluados. La Figura~\ref{fig:lighthouse-accessibility} muestra el panel de accesibilidad de Lighthouse para la pantalla \textit{Home}, resultado representativo del comportamiento uniforme observado en las siete pantallas auditadas.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{img/accessibility.png}
+\caption{Panel de accesibilidad de Google Lighthouse para la pantalla \textit{Home} (puntuación: 100/100). El resultado fue consistente en las siete pantallas evaluadas. Las oportunidades listadas son sugerencias opcionales, no violaciones.}
+\label{fig:lighthouse-accessibility}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Resultados de auditoría Lighthouse — Puntuación de accesibilidad}
+\label{tab:lighthouse}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3.2cm}|p{2.8cm}|p{1.5cm}|}
+\hline
+\textbf{Pantalla} & \textbf{Problemas detectados} & \textbf{Puntuación} \\
+\hline
+Home & Contraste, encabezados & 100 \\
+\hline
+About & Contraste & 100 \\
+\hline
+Blog (índice) & Contraste, encabezados & 100 \\
+\hline
+Blog post & Encabezados & 100 \\
+\hline
+Category & Contraste & 100 \\
+\hline
+Checkout & Contraste, encabezados & 100 \\
+\hline
+Contact & Contraste & 100 \\
+\hline
+\end{tabular}
+\end{table}
+
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Conclusión}
 % ─────────────────────────────────────────────────────────────────────────────
@@ -573,7 +660,7 @@ El trabajo presentado desarrolló un rediseño integral de la tienda en línea d
 
 Desde la perspectiva del contenido (Entregable~2), la definición de voz y tono —profesional, cercana y confiable, con variaciones contextuales fundamentadas en las heurísticas de Nielsen \cite{nielsen-1994}— provee una guía comunicativa coherente aplicable a todos los puntos de contacto. El arco narrativo de la Dra. María Restrepo, construido sobre el modelo de Quesenbery y Brooks \cite{storytelling-ux}, identifica los momentos de mayor riesgo de abandono y los factores de fidelización como criterios concretos de diseño. El microcopy rediseñado transforma mensajes ambiguos o ausentes en orientaciones claras, específicas y accionables que cumplen los criterios WCAG 2.1 \cite{wcag-2018}.
 
-Desde la perspectiva de la implementación (Entregable~3), se materializaron nueve criterios de éxito WCAG 2.1 que presentaban violaciones en el diagnóstico inicial. Los resultados más significativos comprenden: la corrección de la relación de contraste cromático de 1,61:1 a 8,6:1 —superando el nivel AAA—, la incorporación del enlace de salto de navegación para usuarios de teclado y lectores de pantalla, la implementación de etiquetas semánticas y \texttt{aria-label} en todos los elementos de navegación, y la adición del atributo \texttt{autocomplete} en los formularios de contacto y checkout. Paralelamente, el catálogo se expandió de 4 a 33 productos en seis categorías especializadas, el sitio incorporó contenido editorial médico de valor para el profesional de la salud y se crearon páginas de política institucional ausentes en la versión original.
+Desde la perspectiva de la implementación (Entregable~3), se materializaron nueve criterios de éxito WCAG 2.1 que presentaban violaciones en el diagnóstico inicial. Los resultados más significativos comprenden: la corrección de la relación de contraste cromático de 1,61:1 a 8,6:1 —superando el nivel AAA—, la incorporación del enlace de salto de navegación para usuarios de teclado y lectores de pantalla, la implementación de etiquetas semánticas y \texttt{aria-label} en todos los elementos de navegación, y la adición del atributo \texttt{autocomplete} en los formularios de contacto y checkout. Paralelamente, el catálogo se expandió de 4 a 33 productos en seis categorías especializadas, el sitio incorporó contenido editorial médico de valor para el profesional de la salud, se crearon páginas de política institucional ausentes en la versión original y se validó la implementación mediante auditorías Google Lighthouse~\cite{lighthouse} que arrojaron una puntuación de accesibilidad de \textbf{100/100} en las siete pantallas evaluadas (\textit{Home}, \textit{About}, \textit{Blog}, \textit{Blog post}, \textit{Category}, \textit{Checkout} y \textit{Contact}), superando el umbral de referencia de 90/100 en todas ellas. Los problemas de contraste de color y jerarquía de encabezados detectados en la auditoría inicial del rediseño fueron corregidos antes de la validación final, lo que confirma que ningún flujo de usuario presenta barreras de accesibilidad en la versión entregada.
 
 Los tres componentes del Entregable~2 y las mejoras del Entregable~3 convergen en un objetivo común: reducir la fricción cognitiva de un usuario experto en su campo pero con baja tolerancia a interfaces mal diseñadas, incrementando así la probabilidad de conversión y fidelización en una plataforma de servicios académicos especializados.
 

@@ -12,7 +12,7 @@ import { Icon } from "astro-icon/components";
             <!-- Breadcrumbs / Back Link -->
             <a
                 href="/"
-                class="inline-flex items-center gap-2 text-slate-400 hover:text-slate-950 font-bold text-[10px] uppercase tracking-widest transition-colors mb-8 group"
+                class="inline-flex items-center gap-2 text-slate-800 hover:text-slate-950 font-bold text-[10px] uppercase tracking-widest transition-colors mb-8 group"
             >
                 <Icon
                     name="lucide:arrow-left"
@@ -36,7 +36,7 @@ import { Icon } from "astro-icon/components";
                         >
                             Finalizar Pedido
                         </h1>
-                        <p class="text-slate-500 font-medium">
+                        <p class="text-slate-600 font-medium">
                             Completa tus datos para procesar tu pedido de forma segura.
                         </p>
                     </div>
@@ -92,7 +92,7 @@ import { Icon } from "astro-icon/components";
                 <div class="flex justify-between items-center text-sm">
                     <div class="flex flex-col">
                         <span class="font-black text-slate-950 uppercase italic text-xs tracking-tight">${item.name}</span>
-                        <span class="text-[10px] font-bold text-slate-400">CANT: ${item.quantity}</span>
+                        <span class="text-[10px] font-bold text-slate-600">CANT: ${item.quantity}</span>
                     </div>
                     <span class="font-black italic text-slate-900">${formatPrice(item.price * (1 - (item.discount || 0) / 100) * item.quantity)}</span>
                 </div>
