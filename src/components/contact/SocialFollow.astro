@@ -1,0 +1,27 @@
+---
+import { Icon } from "astro-icon/components";
+
+const socialLinks = [
+    { icon: "lucide:facebook", href: "https://www.facebook.com/FECOLSOG", name: "Facebook" },
+    { icon: "lucide:twitter", href: "https://twitter.com/fecolsog", name: "Twitter / X" },
+    { icon: "lucide:instagram", href: "https://www.instagram.com/fecolsog", name: "Instagram" },
+    { icon: "lucide:youtube", href: "https://www.youtube.com/@fecolsog", name: "YouTube" },
+];
+---
+
+<div>
+    <h3 class="font-bold text-lg mb-4">Síguenos</h3>
+    <div class="flex gap-4">
+        {
+            socialLinks.map((link) => (
+                <a
+                    href={link.href}
+                    aria-label={link.name}
+                    class="btn btn-circle btn-ghost hover:bg-primary/10 hover:text-primary transition-colors"
+                >
+                    <Icon name={link.icon} class="w-6 h-6" />
+                </a>
+            ))
+        }
+    </div>
+</div>

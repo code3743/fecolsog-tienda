@@ -1,0 +1,201 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<section class="relative w-full overflow-hidden" aria-label="Destacados de la tienda" role="region">
+    <!-- Swiper Container -->
+    <div class="swiper hero-swiper h-87.5 sm:h-112.5 md:h-125">
+        <div class="swiper-wrapper">
+            <!-- Slide 1: Indumentaria Médica -->
+            <div class="swiper-slide relative">
+                <img
+                    src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1920&auto=format&fit=crop"
+                    alt="Indumentaria Médica FECOLSOG"
+                    class="absolute inset-0 w-full h-full object-cover"
+                />
+                <div
+                    class="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-4"
+                >
+                    <div class="max-w-3xl animate-fade-in">
+                        <span class="badge badge-accent mb-4 p-4 font-bold uppercase tracking-widest">
+                            Colección Institucional
+                        </span>
+                        <h2
+                            class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight"
+                        >
+                            Indumentaria Médica
+                        </h2>
+                        <p
+                            class="text-lg md:text-xl text-white/90 mb-8 max-w-xl mx-auto"
+                        >
+                            Batas médicas y trajes antifluido con el sello institucional de FECOLSOG. Calidad y profesionalismo en cada prenda.
+                        </p>
+                        <a
+                            href="/category/indumentaria"
+                            class="btn btn-primary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform"
+                        >
+                            Ver Indumentaria
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Congresos y Educación -->
+            <div class="swiper-slide relative">
+                <img
+                    src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=1920&auto=format&fit=crop"
+                    alt="Congreso Nacional FECOLSOG"
+                    class="absolute inset-0 w-full h-full object-cover"
+                />
+                <div
+                    class="absolute inset-0 bg-linear-to-r from-black/70 to-transparent flex items-center justify-start px-8 md:px-24"
+                >
+                    <div class="max-w-2xl text-left">
+                        <span
+                            class="badge badge-accent mb-4 p-4 font-bold uppercase tracking-widest"
+                            >2025</span
+                        >
+                        <h2
+                            class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight"
+                        >
+                            Congreso Nacional FECOLSOG
+                        </h2>
+                        <p class="text-lg md:text-xl text-white/90 mb-8">
+                            El evento científico más importante de la Ginecología y Obstetricia en Colombia. Regístrate y asegura tu lugar.
+                        </p>
+                        <a
+                            href="/category/congresos"
+                            class="btn btn-accent btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform"
+                        >
+                            Inscribirse Ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Publicaciones y Educación -->
+            <div class="swiper-slide relative">
+                <img
+                    src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1920&auto=format&fit=crop"
+                    alt="Publicaciones médicas FECOLSOG"
+                    class="absolute inset-0 w-full h-full object-cover"
+                />
+                <div
+                    class="absolute inset-0 bg-black/55 flex items-center justify-center text-center px-4"
+                >
+                    <div class="max-w-3xl">
+                        <h2
+                            class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight"
+                        >
+                            Guías y Publicaciones
+                        </h2>
+                        <p
+                            class="text-lg md:text-xl text-white/90 mb-8 max-w-xl mx-auto"
+                        >
+                            Accede a las guías clínicas, manuales y publicaciones científicas más actualizadas en Ginecología y Obstetricia.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a
+                                href="/category/educacion"
+                                class="btn btn-primary btn-lg rounded-full px-8 shadow-xl transition-all hover:scale-105"
+                            >
+                                Ver Publicaciones
+                            </a>
+                            <a
+                                href="/blog"
+                                class="btn btn-outline btn-lg rounded-full px-8 text-white border-white hover:bg-white hover:text-primary transition-all"
+                            >
+                                Blog Médico
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div
+            class="hero-next text-white! w-10 h-10 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 z-50"
+        >
+            <Icon name="lucide:chevron-right" class="w-6 h-6" />
+        </div>
+        <div
+            class="hero-prev text-white! w-10 h-10 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 z-50"
+        >
+            <Icon name="lucide:chevron-left" class="w-6 h-6" />
+        </div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination bottom-8!"></div>
+    </div>
+</section>
+
+<!-- Swiper Styles -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+
+<style>
+    :root {
+        --swiper-pagination-color: var(--color-primary);
+        --swiper-pagination-bullet-inactive-color: #fff;
+        --swiper-pagination-bullet-inactive-opacity: 0.5;
+        --swiper-pagination-bullet-size: 10px;
+        --swiper-pagination-bullet-horizontal-gap: 6px;
+    }
+
+    .swiper-pagination-bullet-active {
+        width: 24px;
+        border-radius: 5px;
+        transition: width 0.3s ease;
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fade-in 1s ease-out forwards;
+    }
+</style>
+
+<script>
+    import Swiper from "swiper";
+    import {
+        Navigation,
+        Pagination,
+        Autoplay,
+        EffectFade,
+    } from "swiper/modules";
+
+    const initHeroSwiper = () => {
+        new Swiper(".hero-swiper", {
+            modules: [Navigation, Pagination, Autoplay, EffectFade],
+            loop: true,
+            effect: "fade",
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".hero-next",
+                prevEl: ".hero-prev",
+            },
+        });
+    };
+
+    initHeroSwiper();
+    document.addEventListener("astro:after-swap", initHeroSwiper);
+</script>

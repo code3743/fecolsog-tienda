@@ -1,0 +1,44 @@
+---
+import AboutCard from "./AboutCard.astro";
+
+const values = [
+    {
+        title: "Excelencia Científica",
+        description:
+            "Promovemos la investigación y la educación médica continua para que los especialistas colombianos estén siempre a la vanguardia del conocimiento en Ginecología y Obstetricia.",
+        icon: "lucide:microscope",
+    },
+    {
+        title: "Compromiso con la Mujer",
+        description:
+            "Cada acción de FECOLSOG está orientada a mejorar la salud integral de la mujer colombiana, desde la prevención hasta el tratamiento de las patologías más complejas.",
+        icon: "lucide:heart-handshake",
+    },
+    {
+        title: "Gremio Unido",
+        description:
+            "Representamos y fortalecemos a más de 3.000 especialistas en todo el país a través de capítulos regionales, formación y espacios de actualización permanente.",
+        icon: "lucide:users",
+    },
+];
+---
+
+<section class="py-20 bg-slate-50 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span
+                class="text-primary font-bold uppercase tracking-widest text-sm mb-4 block"
+                >Nuestros Valores</span
+            >
+            <h2
+                class="text-3xl md:text-5xl font-black text-slate-900 uppercase"
+            >
+                Lo que Nos Mueve
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {values.map((value) => <AboutCard {...value} />)}
+        </div>
+    </div>
+</section>

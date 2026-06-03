@@ -1,0 +1,49 @@
+---
+import { Icon } from "astro-icon/components";
+
+const contactDetails = [
+    {
+        icon: "lucide:map-pin",
+        title: "Visítanos",
+        lines: ["Carrera 15 No 98-42", "Bogotá, Colombia"],
+    },
+    {
+        icon: "lucide:clock",
+        title: "Horario de Atención",
+        lines: ["Lunes a Viernes", "08:00 AM – 5:30 PM"],
+    },
+    {
+        icon: "lucide:phone",
+        title: "Llámanos",
+        lines: ["+57 (601) 616-5567"],
+    },
+    {
+        icon: "lucide:mail",
+        title: "Escríbenos",
+        lines: ["tienda@fecolsog.org"],
+    },
+];
+---
+
+<div class="space-y-6 mb-10">
+    {
+        contactDetails.map((item) => (
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                    <Icon name={item.icon} class="w-5 h-5" />
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg">{item.title}</h3>
+                    <p class="text-base-content/70">
+                        {item.lines.map((line, index) => (
+                            <>
+                                {line}
+                                {index < item.lines.length - 1 && <br />}
+                            </>
+                        ))}
+                    </p>
+                </div>
+            </div>
+        ))
+    }
+</div>
