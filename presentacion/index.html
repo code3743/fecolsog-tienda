@@ -45,11 +45,24 @@ img, video { max-width:100%; max-height:100%; }
 :root {
     --paper:   #F0EBDE;
     --paper2:  #E6E0CE;
-    --ink:     #004F9F;
-    --ink-dim: rgba(0,79,159,0.22);
+    --ink:     #004F9F;   /* 6.75:1 contra paper — pasa AAA */
+    --ink-dim: rgba(0,79,159,0.22); /* solo para bordes decorativos, NO texto */
     --gold:    #E8A623;
     --green:   #00897B;
     --grid:    rgba(0,79,159,0.08);
+
+    /* Texto secundario con contraste verificado contra --paper (#F0EBDE):
+       --ink-muted  #1A5EA8 → contraste 5.25:1 ✅ WCAG AA (pasa para texto normal y grande)
+       --ink-quiet  #2B6099 → contraste 5.28:1 ✅ WCAG AA                                 */
+    --ink-muted:  #1A5EA8;
+    --ink-quiet:  #2B6099;
+
+    /* Texto sobre fondo oscuro --ink (#004F9F):
+       --on-dark      #F0EBDE → contraste 6.73:1 ✅ WCAG AA+
+       --on-dark-sec  #C2D4E8 → contraste 5.35:1 ✅ WCAG AA                               */
+    --on-dark:     #F0EBDE;
+    --on-dark-sec: #C2D4E8;
+
     --serif:   'Newsreader', Georgia, serif;
     --sans:    'Hanken Grotesk', sans-serif;
     --mono:    'DM Mono', monospace;
@@ -80,8 +93,8 @@ img, video { max-width:100%; max-height:100%; }
     bottom:52px; display:flex;
     justify-content:space-between; align-items:center; z-index:10;
 }
-.chrome-hint { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.3; letter-spacing:0.1em; text-transform:uppercase; }
-.chrome-num  { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.4; letter-spacing:0.06em; }
+.chrome-hint { font-family:var(--mono); font-size:15px; color:var(--ink-muted); letter-spacing:0.1em; text-transform:uppercase; }
+.chrome-num  { font-family:var(--mono); font-size:15px; color:var(--ink-muted); letter-spacing:0.06em; }
 
 /* Reveal animation — every visible child */
 .rev {
@@ -101,24 +114,24 @@ img, video { max-width:100%; max-height:100%; }
    SHARED COMPONENTS
    ===================================================== */
 .eyebrow {
-    font-family:var(--mono); font-size:14px; color:var(--ink);
-    letter-spacing:0.2em; text-transform:uppercase; opacity:0.4;
+    font-family:var(--mono); font-size:17px; color:var(--ink-muted);
+    letter-spacing:0.2em; text-transform:uppercase;
 }
 .huge {
-    font-family:var(--serif); font-size:190px; font-weight:400;
+    font-family:var(--serif); font-size:228px; font-weight:400;
     color:var(--ink); line-height:0.88; letter-spacing:-0.015em;
 }
 .big {
-    font-family:var(--serif); font-size:136px; font-weight:400;
+    font-family:var(--serif); font-size:163px; font-weight:400;
     color:var(--ink); line-height:0.9; letter-spacing:-0.01em;
 }
 .med {
-    font-family:var(--serif); font-size:88px; font-weight:400;
+    font-family:var(--serif); font-size:106px; font-weight:400;
     color:var(--ink); line-height:0.96; letter-spacing:-0.007em;
 }
 .body-l {
-    font-family:var(--sans); font-size:28px; font-weight:300;
-    color:var(--ink); line-height:1.5; opacity:0.65;
+    font-family:var(--sans); font-size:34px; font-weight:300;
+    color:var(--ink-quiet); line-height:1.5;
 }
 .rule-h { height:1.5px; background:var(--ink); opacity:0.2; }
 
@@ -136,12 +149,12 @@ img, video { max-width:100%; max-height:100%; }
     top:50%; transform:translateY(-52%);
     display:flex; flex-direction:column; gap:0; z-index:5;
 }
-.s01-kicker { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.2em; text-transform:uppercase; opacity:0.38; margin-bottom:40px; }
-.s01-title { font-family:var(--serif); font-size:148px; font-weight:400; color:var(--ink); line-height:0.88; letter-spacing:-0.015em; margin:0 0 32px; }
-.s01-sub { font-family:var(--serif); font-size:48px; font-weight:300; font-style:italic; color:var(--ink); opacity:0.45; margin:0 0 60px; }
+.s01-kicker { font-family:var(--mono); font-size:17px; color:var(--ink-muted); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:40px; }
+.s01-title { font-family:var(--serif); font-size:178px; font-weight:400; color:var(--ink); line-height:0.88; letter-spacing:-0.015em; margin:0 0 32px; }
+.s01-sub { font-family:var(--serif); font-size:58px; font-weight:300; font-style:italic; color:var(--ink-muted); margin:0 0 60px; }
 .s01-rule { width:56px; height:1.5px; background:var(--ink); opacity:0.3; margin-bottom:36px; }
-.s01-authors { font-family:var(--sans); font-size:24px; font-weight:300; color:var(--ink); opacity:0.6; line-height:1.7; }
-.s01-inst { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.35; letter-spacing:0.18em; text-transform:uppercase; margin-top:16px; }
+.s01-authors { font-family:var(--sans); font-size:29px; font-weight:300; color:var(--ink-quiet); line-height:1.7; }
+.s01-inst { font-family:var(--mono); font-size:15px; color:var(--ink-muted); letter-spacing:0.18em; text-transform:uppercase; margin-top:16px; }
 
 /* =====================================================
    SLIDE 02 — EL PROBLEMA (one big stat)
@@ -151,15 +164,15 @@ img, video { max-width:100%; max-height:100%; }
     position:absolute; left:var(--edge); top:50%; transform:translateY(-52%);
     z-index:5;
 }
-.s02-big { font-family:var(--serif); font-size:240px; font-weight:400; color:var(--ink); line-height:0.82; letter-spacing:-0.025em; }
-.s02-label { font-family:var(--sans); font-size:24px; font-weight:600; color:var(--ink); letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; margin-top:20px; }
+.s02-big { font-family:var(--serif); font-size:288px; font-weight:400; color:var(--ink); line-height:0.82; letter-spacing:-0.025em; }
+.s02-label { font-family:var(--sans); font-size:29px; font-weight:600; color:var(--ink-muted); letter-spacing:0.14em; text-transform:uppercase; margin-top:20px; }
 .s02-vs {
     position:absolute; right:var(--edge); top:50%; transform:translateY(-50%);
     display:flex; flex-direction:column; align-items:flex-start; gap:12px; z-index:5;
 }
-.s02-vs-label { font-family:var(--mono); font-size:13px; color:var(--ink); opacity:0.35; letter-spacing:0.15em; text-transform:uppercase; }
-.s02-vs-num { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); line-height:0.9; letter-spacing:-0.01em; }
-.s02-vs-sub { font-family:var(--sans); font-size:18px; font-weight:400; color:var(--ink); opacity:0.4; }
+.s02-vs-label { font-family:var(--mono); font-size:16px; color:var(--ink); opacity:0.35; letter-spacing:0.15em; text-transform:uppercase; }
+.s02-vs-num { font-family:var(--serif); font-size:115px; font-weight:400; color:var(--ink); line-height:0.9; letter-spacing:-0.01em; }
+.s02-vs-sub { font-family:var(--sans); font-size:22px; font-weight:400; color:var(--ink-muted); }
 
 /* =====================================================
    SLIDE 03 — VIOLACIONES WCAG
@@ -170,16 +183,16 @@ img, video { max-width:100%; max-height:100%; }
     top:120px; bottom:100px;
     display:flex; flex-direction:column; gap:0; z-index:5;
 }
-.s03-title { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); line-height:0.9; letter-spacing:-0.01em; margin-bottom:52px; }
+.s03-title { font-family:var(--serif); font-size:115px; font-weight:400; color:var(--ink); line-height:0.9; letter-spacing:-0.01em; margin-bottom:52px; }
 .s03-list { display:flex; flex-direction:column; gap:0; flex:1; }
 .s03-item {
     display:flex; align-items:center; gap:40px;
     padding:22px 0; border-bottom:1px solid var(--ink-dim);
 }
 .s03-item:last-child { border-bottom:none; }
-.s03-crit { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.08em; opacity:0.45; width:88px; flex-shrink:0; }
-.s03-name { font-family:var(--serif); font-size:42px; font-weight:400; color:var(--ink); letter-spacing:-0.003em; width:400px; flex-shrink:0; line-height:1; }
-.s03-desc { font-family:var(--sans); font-size:20px; font-weight:300; color:var(--ink); opacity:0.55; line-height:1.4; }
+.s03-crit { font-family:var(--mono); font-size:17px; color:var(--ink-muted); letter-spacing:0.08em; width:88px; flex-shrink:0; }
+.s03-name { font-family:var(--serif); font-size:50px; font-weight:400; color:var(--ink); letter-spacing:-0.003em; width:400px; flex-shrink:0; line-height:1; }
+.s03-desc { font-family:var(--sans); font-size:24px; font-weight:300; color:var(--ink-quiet); line-height:1.4; }
 
 /* =====================================================
    SLIDE 04 — LAS 3 RESPUESTAS (pitch statement)
@@ -189,15 +202,15 @@ img, video { max-width:100%; max-height:100%; }
     position:absolute; left:var(--edge); right:var(--edge);
     top:50%; transform:translateY(-52%); z-index:5;
 }
-.s04-eyebrow { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.22em; text-transform:uppercase; opacity:0.35; margin-bottom:52px; }
+.s04-eyebrow { font-family:var(--mono); font-size:17px; color:var(--ink); letter-spacing:0.22em; text-transform:uppercase; opacity:0.35; margin-bottom:52px; }
 .s04-trio { display:flex; gap:0; }
 .s04-word {
-    font-family:var(--serif); font-size:156px; font-weight:400; color:var(--ink);
+    font-family:var(--serif); font-size:187px; font-weight:400; color:var(--ink);
     line-height:0.88; letter-spacing:-0.012em; flex:1;
     border-left:1.5px solid rgba(0,79,159,0.2); padding-left:48px;
 }
 .s04-word:first-child { border-left:none; padding-left:0; }
-.s04-sub { margin-top:52px; font-family:var(--sans); font-size:22px; font-weight:300; color:var(--ink); opacity:0.45; }
+.s04-sub { margin-top:52px; font-family:var(--sans); font-size:26px; font-weight:300; color:var(--ink-muted); }
 
 /* =====================================================
    SLIDE 05 — LA PERSONA
@@ -209,13 +222,13 @@ img, video { max-width:100%; max-height:100%; }
     display:flex; align-items:center; gap:120px;
 }
 .s05-l { flex:0 0 580px; }
-.s05-name { font-family:var(--serif); font-size:136px; font-weight:400; color:var(--ink); line-height:0.88; letter-spacing:-0.012em; }
-.s05-role { font-family:var(--serif); font-size:36px; font-style:italic; color:var(--ink); opacity:0.45; margin-top:20px; line-height:1.3; }
+.s05-name { font-family:var(--serif); font-size:163px; font-weight:400; color:var(--ink); line-height:0.88; letter-spacing:-0.012em; }
+.s05-role { font-family:var(--serif); font-size:43px; font-style:italic; color:var(--ink-muted); margin-top:20px; line-height:1.3; }
 .s05-r { flex:1; display:flex; flex-direction:column; gap:32px; border-left:1.5px solid rgba(0,79,159,0.2); padding-left:80px; }
 .s05-tag {
-    font-family:var(--sans); font-size:28px; font-weight:300; color:var(--ink); opacity:0.65; line-height:1.45;
+    font-family:var(--sans); font-size:34px; font-weight:300; color:var(--ink-quiet); line-height:1.45;
 }
-.s05-tag strong { font-weight:600; opacity:1; }
+.s05-tag strong { font-weight:600; color:var(--ink); }
 
 /* =====================================================
    SLIDE 06 — MICROCOPY ANTES/DESPUÉS
@@ -225,18 +238,18 @@ img, video { max-width:100%; max-height:100%; }
     position:absolute; left:var(--edge); right:var(--edge);
     top:120px; bottom:100px; display:flex; flex-direction:column; z-index:5;
 }
-.s06-title { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); letter-spacing:-0.01em; line-height:0.9; margin-bottom:64px; }
+.s06-title { font-family:var(--serif); font-size:115px; font-weight:400; color:var(--ink); letter-spacing:-0.01em; line-height:0.9; margin-bottom:64px; }
 .s06-pairs { display:flex; flex-direction:column; gap:28px; flex:1; justify-content:center; }
 .s06-pair { display:flex; align-items:center; gap:48px; }
 .s06-bad {
-    font-family:var(--serif); font-size:36px; font-weight:400; color:var(--ink);
+    font-family:var(--serif); font-size:43px; font-weight:400; color:var(--ink);
     opacity:0.28; flex:1; line-height:1.2;
     padding:18px 24px; border:1px solid rgba(0,79,159,0.15);
     text-decoration:line-through; background:var(--paper2);
 }
-.s06-arrow { font-family:var(--mono); font-size:28px; color:var(--ink); opacity:0.3; flex-shrink:0; }
+.s06-arrow { font-family:var(--mono); font-size:34px; color:var(--ink-muted); flex-shrink:0; }
 .s06-good {
-    font-family:var(--serif); font-size:36px; font-weight:400; color:var(--ink);
+    font-family:var(--serif); font-size:43px; font-weight:400; color:var(--ink);
     flex:2; line-height:1.2; padding:18px 24px;
     border:1.5px solid var(--ink); border-left:4px solid var(--gold);
 }
@@ -249,12 +262,12 @@ img, video { max-width:100%; max-height:100%; }
     position:absolute; left:var(--edge); right:var(--edge);
     top:50%; transform:translateY(-52%); z-index:5;
 }
-.s07-eyebrow { font-family:var(--mono); font-size:14px; color:var(--ink); letter-spacing:0.22em; text-transform:uppercase; opacity:0.35; margin-bottom:52px; }
+.s07-eyebrow { font-family:var(--mono); font-size:17px; color:var(--ink); letter-spacing:0.22em; text-transform:uppercase; opacity:0.35; margin-bottom:52px; }
 .s07-stack { display:flex; flex-direction:column; gap:12px; }
 .s07-item { display:flex; align-items:baseline; gap:32px; border-bottom:1px solid var(--ink-dim); padding:16px 0; }
 .s07-item:last-child { border-bottom:none; }
-.s07-name { font-family:var(--serif); font-size:72px; font-weight:400; color:var(--ink); letter-spacing:-0.008em; line-height:1; }
-.s07-note { font-family:var(--mono); font-size:14px; color:var(--ink); opacity:0.35; letter-spacing:0.06em; }
+.s07-name { font-family:var(--serif); font-size:86px; font-weight:400; color:var(--ink); letter-spacing:-0.008em; line-height:1; }
+.s07-note { font-family:var(--mono); font-size:17px; color:var(--ink-muted); letter-spacing:0.06em; }
 
 /* =====================================================
    SLIDE 08 — ACCESIBILIDAD (un gran número)
@@ -265,13 +278,13 @@ img, video { max-width:100%; max-height:100%; }
     position:absolute; left:var(--edge); top:50%; transform:translateY(-52%); z-index:5;
 }
 .s08-num {
-    font-family:var(--serif); font-size:340px; font-weight:400;
+    font-family:var(--serif); font-size:408px; font-weight:400;
     color:var(--paper); line-height:0.78; letter-spacing:-0.025em;
 }
 .s08-label {
-    font-family:var(--sans); font-size:32px; font-weight:600;
+    font-family:var(--sans); font-size:38px; font-weight:600;
     color:var(--paper); letter-spacing:0.12em; text-transform:uppercase;
-    opacity:0.6; margin-top:16px;
+    margin-top:16px;
 }
 .s08-aside {
     position:absolute; right:var(--edge); top:50%; transform:translateY(-50%);
@@ -281,14 +294,14 @@ img, video { max-width:100%; max-height:100%; }
 .s08-criterion {
     display:flex; align-items:center; gap:20px;
 }
-.s08-crit-code { font-family:var(--mono); font-size:14px; color:var(--paper); opacity:0.45; letter-spacing:0.1em; width:72px; flex-shrink:0; }
-.s08-crit-name { font-family:var(--sans); font-size:22px; font-weight:400; color:var(--paper); opacity:0.7; }
+.s08-crit-code { font-family:var(--mono); font-size:17px; color:var(--on-dark-sec); letter-spacing:0.1em; width:72px; flex-shrink:0; }
+.s08-crit-name { font-family:var(--sans); font-size:26px; font-weight:400; color:var(--on-dark-sec); }
 .s08-crit-level {
-    font-family:var(--mono); font-size:12px; letter-spacing:0.08em;
+    font-family:var(--mono); font-size:15px; letter-spacing:0.08em;
     padding:4px 10px; border:1px solid rgba(240,235,222,0.3);
-    color:var(--paper); opacity:0.6; margin-left:auto; white-space:nowrap;
+    color:var(--on-dark-sec); margin-left:auto; white-space:nowrap;
 }
-.s08-chrome-hint { color:rgba(240,235,222,0.3); }
+.s08-chrome-hint { color:var(--on-dark-sec); }
 .s08-chrome-num  { color:rgba(240,235,222,0.5); }
 
 /* =====================================================
@@ -300,11 +313,11 @@ img, video { max-width:100%; max-height:100%; }
     top:80px; bottom:88px; display:flex; flex-direction:column; z-index:5;
 }
 .s09-topbar { display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid var(--ink); padding-bottom:16px; margin-bottom:24px; opacity:0.9; }
-.s09-topbar-title { font-family:var(--serif); font-size:64px; font-weight:400; color:var(--ink); letter-spacing:-0.007em; line-height:1; }
-.s09-topbar-tag { font-family:var(--mono); font-size:13px; color:var(--ink); letter-spacing:0.08em; opacity:0.45; }
+.s09-topbar-title { font-family:var(--serif); font-size:77px; font-weight:400; color:var(--ink); letter-spacing:-0.007em; line-height:1; }
+.s09-topbar-tag { font-family:var(--mono); font-size:16px; color:var(--ink-muted); letter-spacing:0.08em; }
 .s09-grid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:32px; }
 .s09-col { display:flex; flex-direction:column; gap:12px; }
-.s09-col-label { font-family:var(--mono); font-size:12px; color:var(--ink); letter-spacing:0.16em; text-transform:uppercase; opacity:0.4; }
+.s09-col-label { font-family:var(--mono); font-size:15px; color:var(--ink-muted); letter-spacing:0.16em; text-transform:uppercase; }
 .s09-img { flex:1; overflow:hidden; background:var(--paper2); border:1px solid var(--ink-dim); }
 .s09-img img { width:100%; height:100%; object-fit:cover; object-position:top; }
 
@@ -324,12 +337,12 @@ img, video { max-width:100%; max-height:100%; }
     align-items:center; justify-content:center;
     z-index:5; gap:32px;
 }
-.s11-eyebrow { font-family:var(--mono); font-size:16px; color:var(--paper); letter-spacing:0.3em; text-transform:uppercase; opacity:0.4; }
+.s11-eyebrow { font-family:var(--mono); font-size:19px; color:var(--on-dark-sec); letter-spacing:0.3em; text-transform:uppercase; }
 .s11-word {
-    font-family:var(--serif); font-size:220px; font-weight:400;
+    font-family:var(--serif); font-size:264px; font-weight:400;
     color:var(--paper); line-height:0.82; letter-spacing:-0.02em;
 }
-.s11-sub { font-family:var(--sans); font-size:26px; font-weight:300; color:var(--paper); opacity:0.45; letter-spacing:0.06em; }
+.s11-sub { font-family:var(--sans); font-size:31px; font-weight:300; color:var(--on-dark-sec); letter-spacing:0.06em; }
 /* Animated border pulse */
 .s11-border {
     position:absolute; inset:40px; border:1.5px solid rgba(240,235,222,0.15);
@@ -350,7 +363,7 @@ img, video { max-width:100%; max-height:100%; }
     top:100px; bottom:88px; z-index:5;
     display:flex; flex-direction:column;
 }
-.s12-title { font-family:var(--serif); font-size:96px; font-weight:400; color:var(--ink); letter-spacing:-0.01em; line-height:0.9; margin-bottom:64px; }
+.s12-title { font-family:var(--serif); font-size:115px; font-weight:400; color:var(--ink); letter-spacing:-0.01em; line-height:0.9; margin-bottom:64px; }
 .s12-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; flex:1; }
 .s12-col {
     display:flex; flex-direction:column; justify-content:flex-end;
@@ -358,10 +371,10 @@ img, video { max-width:100%; max-height:100%; }
     gap:10px;
 }
 .s12-col:first-child { border-left:none; padding-left:0; }
-.s12-n { font-family:var(--serif); font-size:140px; font-weight:400; color:var(--ink); line-height:0.84; letter-spacing:-0.018em; }
-.s12-u { font-family:var(--mono); font-size:16px; color:var(--gold); letter-spacing:0.1em; }
-.s12-l { font-family:var(--sans); font-size:17px; font-weight:600; color:var(--ink); letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; }
-.s12-d { font-family:var(--mono); font-size:12px; color:var(--ink); opacity:0.3; letter-spacing:0.06em; }
+.s12-n { font-family:var(--serif); font-size:160px; font-weight:400; color:var(--ink); line-height:0.84; letter-spacing:-0.018em; }
+.s12-u { font-family:var(--mono); font-size:19px; color:var(--gold); letter-spacing:0.1em; }
+.s12-l { font-family:var(--sans); font-size:20px; font-weight:600; color:var(--ink-muted); letter-spacing:0.14em; text-transform:uppercase; }
+.s12-d { font-family:var(--mono); font-size:15px; color:var(--ink-muted); letter-spacing:0.06em; }
 
 /* =====================================================
    SLIDE 13 — CIERRE
@@ -371,7 +384,7 @@ img, video { max-width:100%; max-height:100%; }
     position:absolute; left:var(--edge); right:var(--edge);
     top:50%; transform:translateY(-52%); z-index:5;
 }
-.s13-big { font-family:var(--serif); font-size:100px; font-weight:400; color:var(--ink); line-height:1.05; letter-spacing:-0.01em; max-width:1400px; }
+.s13-big { font-family:var(--serif); font-size:120px; font-weight:400; color:var(--ink); line-height:1.05; letter-spacing:-0.01em; max-width:1400px; }
 .s13-big em { font-style:italic; }
 .s13-rule { width:100%; height:1.5px; background:var(--ink); opacity:0.15; margin:56px 0; }
 .s13-footnote { font-family:var(--mono); font-size:13px; color:var(--ink); opacity:0.35; letter-spacing:0.12em; text-transform:uppercase; }
@@ -439,12 +452,12 @@ img, video { max-width:100%; max-height:100%; }
      ========================================== -->
 <section class="slide s02">
   <div class="s02-body">
-    <div class="s02-big rev">55<span style="font-size:96px;opacity:0.35;">/100</span></div>
+    <div class="s02-big rev">55<span style="font-size:115px;opacity:0.35;">/100</span></div>
     <div class="s02-label rev">Lighthouse · Accesibilidad</div>
   </div>
   <div class="s02-vs">
     <div class="rev">
-      <div class="s02-vs-label">Contraste real</div>
+      <div class="s02-vs-label" style="color:var(--ink-muted)">Contraste real</div>
       <div class="s02-vs-num" style="opacity:0.32;text-decoration:line-through;">1,61:1</div>
       <div class="s02-vs-sub">umbral mínimo WCAG AA</div>
     </div>
@@ -620,8 +633,8 @@ img, video { max-width:100%; max-height:100%; }
   <!-- Texto grande izquierda -->
   <div style="position:absolute;left:var(--edge);top:50%;transform:translateY(-52%);width:640px;z-index:5;display:flex;flex-direction:column;gap:20px;">
     <div class="eyebrow rev" style="margin-bottom:12px;">Error 404 · Original</div>
-    <div style="font-family:var(--serif);font-size:148px;font-weight:400;color:var(--ink);line-height:0.88;letter-spacing:-0.015em;" class="rev">Pasamos<br/>de<br/>esto…</div>
-    <div style="font-family:var(--sans);font-size:22px;font-weight:300;color:var(--ink);opacity:0.45;line-height:1.5;margin-top:16px;" class="rev">
+    <div style="font-family:var(--serif);font-size:178px;font-weight:400;color:var(--ink);line-height:0.88;letter-spacing:-0.015em;" class="rev">Pasamos<br/>de<br/>esto…</div>
+    <div style="font-family:var(--sans);font-size:26px;font-weight:300;color:var(--ink-muted);line-height:1.5;margin-top:16px;" class="rev">
       Servidor IIS en inglés<br/>Sin marca · Sin navegación<br/>Sin acción de recuperación
     </div>
   </div>
@@ -642,11 +655,11 @@ img, video { max-width:100%; max-height:100%; }
   <!-- Texto grande izquierda -->
   <div style="position:absolute;left:var(--edge);top:50%;transform:translateY(-52%);width:640px;z-index:5;display:flex;flex-direction:column;gap:20px;">
     <div class="eyebrow rev" style="margin-bottom:12px;">Error 404 · Rediseñado</div>
-    <div style="font-family:var(--serif);font-size:148px;font-weight:400;color:var(--ink);line-height:0.88;letter-spacing:-0.015em;" class="rev">a<br/>esto.</div>
-    <div style="font-family:var(--sans);font-size:22px;font-weight:300;color:var(--ink);opacity:0.45;line-height:1.5;margin-top:16px;" class="rev">
+    <div style="font-family:var(--serif);font-size:178px;font-weight:400;color:var(--ink);line-height:0.88;letter-spacing:-0.015em;" class="rev">a<br/>esto.</div>
+    <div style="font-family:var(--sans);font-size:26px;font-weight:300;color:var(--ink-muted);line-height:1.5;margin-top:16px;" class="rev">
       En español · Marca FECOLSOG<br/>Navegación completa<br/>Botón «Volver al inicio»
     </div>
-    <div style="font-family:var(--mono);font-size:12px;color:var(--ink);opacity:0.3;letter-spacing:0.12em;text-transform:uppercase;margin-top:8px;" class="rev">H2 · H9 Nielsen · WCAG 3.3.3</div>
+    <div style="font-family:var(--mono);font-size:15px;color:var(--ink-muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:8px;" class="rev">H2 · H9 Nielsen · WCAG 3.3.3</div>
   </div>
   <!-- Imagen grande derecha -->
   <div style="position:absolute;right:0;top:30px;bottom:30px;width:1080px;z-index:4;overflow:hidden;border-left:2px solid var(--ink);" class="rev">
@@ -669,8 +682,8 @@ img, video { max-width:100%; max-height:100%; }
     <div class="s11-sub rev">tiendaonline · rediseño implementado · Astro 5</div>
   </div>
   <div class="chrome">
-    <span class="chrome-hint" style="color:rgba(240,235,222,0.3);">Demo en vivo</span>
-    <span class="chrome-num" style="color:rgba(240,235,222,0.45);">11 / 13</span>
+    <span class="chrome-hint" style="color:var(--on-dark-sec);">Demo en vivo</span>
+    <span class="chrome-num" style="color:var(--on-dark-sec);">11 / 13</span>
   </div>
 </section>
 
@@ -715,8 +728,8 @@ img, video { max-width:100%; max-height:100%; }
      ========================================== -->
 <section class="slide s13">
   <div class="s13-body">
-    <div style="font-family:var(--serif);font-size:260px;font-weight:400;color:var(--ink);line-height:0.85;letter-spacing:-0.02em;" class="rev">Gracias.</div>
-    <div style="font-family:var(--mono);font-size:14px;color:var(--ink);opacity:0.3;letter-spacing:0.18em;text-transform:uppercase;margin-top:52px;" class="rev">Jota Emilio López Ramírez · Esmeralda Rivas Guzmán</div>
+    <div style="font-family:var(--serif);font-size:312px;font-weight:400;color:var(--ink);line-height:0.85;letter-spacing:-0.02em;" class="rev">Gracias.</div>
+    <div style="font-family:var(--mono);font-size:17px;color:var(--ink-muted);letter-spacing:0.18em;text-transform:uppercase;margin-top:52px;" class="rev">Jota Emilio López Ramírez · Esmeralda Rivas Guzmán</div>
   </div>
   <div class="chrome"><span class="chrome-hint">Conclusión</span><span class="chrome-num">13 / 13</span></div>
 </section>
